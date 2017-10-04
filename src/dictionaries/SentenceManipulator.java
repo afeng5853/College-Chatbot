@@ -91,6 +91,7 @@ public class SentenceManipulator {
 		}
 	}
 	
+	// methods below should be part of another class
 	public final String getWord(int idx) {
 		StringBuilder after = new StringBuilder();
 		// get characters after
