@@ -7,9 +7,8 @@ public class Test {
 
 	public static void main(String[] args) throws FileNotFoundException, IOException {
 		// TODO Auto-generated method stub
-		NounDictionary test = new NounDictionary();
-		AdjectiveDictionary test1 = new AdjectiveDictionary();
-		System.out.println(test.contains("name"));
+		SentenceManipulator test = new SentenceManipulator("The quick brown fox jumped over the lazy dog.");
+		System.out.println(test.getPartsOfSpeech());
 	}
 
 	public static int findKeyword(String sentence, String keyword, int start) {

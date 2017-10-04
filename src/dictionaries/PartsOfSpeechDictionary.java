@@ -10,10 +10,12 @@ public abstract class PartsOfSpeechDictionary {
 	private final ArrayList<String> dict;
 	
 	public PartsOfSpeechDictionary(String dir) throws IOException, FileNotFoundException {
-		BufferedReader in = new BufferedReader(new FileReader(dir));
+		BufferedReader in = new BufferedReader(new FileReader(dir)); // reads the text file
 		String str;
 		
-		ArrayList<String> list = new ArrayList<>();
+		ArrayList<String> list = new ArrayList<>(); // will contains all of the corresponding part of speech words
+		
+		// while not an empty line
 		while ((str = in.readLine()) != null) {
 			list.add(str);
 		}
