@@ -6,4 +6,5 @@ public abstract class Emotion {
 	private int angry = 0;
 	private int humor = 0;
 	private int disgusted = 0;
+	
 }
