@@ -1,4 +1,4 @@
-package Chatbots;
+
 import java.util.Random;
 
 /**
@@ -19,6 +19,7 @@ public class ChatBotCheung
 	{
 		return "Hi, what is up?";
 	}
+	
 	
 	/**
 	 * Gives a response to a user statement
@@ -61,7 +62,22 @@ public class ChatBotCheung
 		{
 			response = getRandomResponse();
 		}
+		else if (findKeyword(statement, "fasfa") >= 0) {
+			response = "Would you like to access a Financial Aid Calculator?";
+		}
+		// 	String fasfa = "The Free Application for Federal Student Aid (FAFSA) is a form that can be prepared annually by current and prospective college students (undergraduate and graduate) in the United States to determine their eligibility for student financial aid.\r\n";
+//	String css = "The CSS/Financial Aid PROFILE (often written as CSS PROFILE), short for the College Scholarship Service PROFILE, is an application distributed by the College Board in the United States allowing college students to apply for financial aid. ... Each CSS PROFILE costs a fee, varying from year to year.\r\n";
+/*
+ * 		else if (findKeyword(statement, "fasfa") >= 0 || findKeyword(statement, "css") >= 0 || findKeyword(statement, "finance") >= 0 || findKeyword(statement, "financial") >= 0){
+			response = "Would you like help with college finance?";
+			//response = fasfa;
+		}
+		else if (findKeyword(statement, "css") >= 0) {
+			response = "Would you like to access a Financial Aid Calculator?";
+			response = fasfa;
+		}
 		
+ */
 		return response;
 	}
 	
