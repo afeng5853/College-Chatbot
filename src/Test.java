@@ -7,9 +7,9 @@ public class Test {
 
 	public static void main(String[] args) throws FileNotFoundException, IOException {
 		// TODO Auto-generated method stub
-		SentenceManipulator test = new SentenceManipulator("The quick brown fox jumped over the lazy dog.");
+		SentenceManipulator test = new SentenceManipulator("the quick brown fox jumps over the lazy dog.");
 		System.out.println(test.getPartsOfSpeech());
-		System.out.println(test.getWord(6));
+		System.out.println(test.getWord(40));
 	}
 
 	public static int findKeyword(String sentence, String keyword, int start) {
