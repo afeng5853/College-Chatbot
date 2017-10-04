@@ -1,4 +1,6 @@
 package Chatbots;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Random;
 
 /**
@@ -7,9 +9,8 @@ import java.util.Random;
  * @author Mr. Levin
  * @version September 2017
  */
-public class ChatBotLevin
+public class ChatBotLevin implements Emotion
 {
-	//emotion can alter the way our bot responds. Emotion can become more negative or positive over time.
 	int emotion = 0;
 	/**
 	 * Get a default greeting 	
@@ -26,42 +27,18 @@ public class ChatBotLevin
 	 * @param statement
 	 *            the user statement
 	 * @return a response based on the rules given
+	 * @throws IOException 
+	 * @throws FileNotFoundException 
 	 */
-	public String getResponse(String statement)
+	public String getResponse(String statement) throws FileNotFoundException, IOException
 	{
 		String response = "";
 		
 		if (statement.length() == 0)
 		{
-			response = "Say something, please.";
+			response = "Say something, please."; //to edit
 		}
 
-		else if (findKeyword(statement, "no") >= 0)
-		{
-			response = "Why so negative?";
-                	emotion--;
-		}
-		
-		else if (findKeyword(statement, "levin") >= 0)
-		{
-			response = "More like LevinTheDream amiright?";
-			emotion++;
-		}
-
-		// Response transforming I want to statement
-		else if (findKeyword(statement, "I want to", 0) >= 0)
-		{
-			response = transformIWantToStatement(statement);
-		}
-		else if (findKeyword(statement, "I want",0) >= 0)
-		{
-			response = transformIWantStatement(statement);
-		}	
-		else
-		{
-			response = getRandomResponse();
-		}
-		
 		return response;
 	}
 	

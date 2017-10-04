@@ -1,4 +1,4 @@
-package dictionaries;
+package utils;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -6,10 +6,10 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public abstract class PartsOfSpeechDictionary {
+public abstract class TextFileReader {
 	private final ArrayList<String> dict;
 	
-	public PartsOfSpeechDictionary(String dir) throws IOException, FileNotFoundException {
+	public TextFileReader(String dir) throws IOException, FileNotFoundException {
 		BufferedReader in = new BufferedReader(new FileReader(dir)); // reads the text file
 		String str;
 		

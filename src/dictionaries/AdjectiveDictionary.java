@@ -3,7 +3,9 @@ package dictionaries;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-public class AdjectiveDictionary extends PartsOfSpeechDictionary {
+import utils.TextFileReader;
+
+public class AdjectiveDictionary extends TextFileReader {
 
 	public AdjectiveDictionary() throws IOException, FileNotFoundException {
 		super("src/word list/adjectivelist.txt");

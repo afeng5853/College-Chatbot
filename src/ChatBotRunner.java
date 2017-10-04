@@ -1,7 +1,10 @@
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Scanner;
 
 import Chatbots.ChatBotLevin;
+import Chatbots.ChatBotFeng;
 
 /**
  * A simple class to run our chatbot teams.
@@ -13,10 +16,12 @@ public class ChatBotRunner
 
 	/**
 	 * Create instances of each chatbot, give it user input, and print its replies. Switch chatbot responses based on which chatbot the user is speaking too.
+	 * @throws IOException 
+	 * @throws FileNotFoundException 
 	 */
-	public static void main(String[] args)
+	public static void main(String[] args) throws FileNotFoundException, IOException
 	{
-		ChatBotLevin chatbot1 = new ChatBotLevin();
+		ChatBotFeng chatbot1 = new ChatBotFeng();
 		
 		System.out.println (chatbot1.getGreeting());
 		Scanner in = new Scanner (System.in);
