@@ -9,6 +9,7 @@ public class Test {
 		// TODO Auto-generated method stub
 		SentenceManipulator test = new SentenceManipulator("The quick brown fox jumped over the lazy dog.");
 		System.out.println(test.getPartsOfSpeech());
+		System.out.println(test.getWord(6));
 	}
 
 	public static int findKeyword(String sentence, String keyword, int start) {

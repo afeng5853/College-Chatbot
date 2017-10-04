@@ -25,45 +25,90 @@ public class SentenceManipulator {
 		this.sentence = sentence;
 	}
 	
-	/**
-	 * 
-	 * @return returns a HashMap with the key being a part of speech, and the value being an ArrayList of the parts of speech found in the sentence
-	 */
-	public final HashMap<String, ArrayList<String>> getPartsOfSpeech() {
-		String[] wordList = sentence.split(" "); // an array of the words of the sentence string
+	private final void addToPartOfSpeechMap(HashMap<String, ArrayList<Integer>> map, String word, int idx) {
+		// getting the value arrays
+		ArrayList<Integer> nounList = map.get("noun");
+		ArrayList<Integer> adjectiveList = map.get("adjective");
+		ArrayList<Integer> adverbList = map.get("adverb");
+		ArrayList<Integer> verbList = map.get("verb");
 		
-		HashMap<String, ArrayList<String>> partsOfSpeech = new HashMap<>(); // will have each part of speech be a key and a corresponding array
+		// if the word is a certain part of speech, add it to the corresponding array with its position index
+		if (nounDict.contains(word)) {
+			nounList.add(idx);
+		} else if (adjDict.contains(word)) {
+			adjectiveList.add(idx);
+		} else if (verbDict.contains(word)) {
+			verbList.add(idx);
+		} else if (adverbDict.contains(word)) {
+			adverbList.add(idx);
+		}
+	}
+	
+	/**
+	 * @return returns a HashMap with the key being a part of speech, and the value being an ArrayList of the index parts of speech found in the sentence
+	 * @see addToPartOfSpeechMap
+	 */
+	public final HashMap<String, ArrayList<Integer>> getPartsOfSpeech() {
+		HashMap<String, ArrayList<Integer>> partsOfSpeech = new HashMap<>(); // will have each part of speech be a key and a corresponding array
 		
 		// initializing key, values of parts of speech to a corresponding array
-		partsOfSpeech.put("noun", new ArrayList<String>());
-		partsOfSpeech.put("adjective", new ArrayList<String>());
-		partsOfSpeech.put("verb", new ArrayList<String>());
-		partsOfSpeech.put("adverb", new ArrayList<String>());
+		partsOfSpeech.put("noun", new ArrayList<Integer>());
+		partsOfSpeech.put("adjective", new ArrayList<Integer>());
+		partsOfSpeech.put("verb", new ArrayList<Integer>());
+		partsOfSpeech.put("adverb", new ArrayList<Integer>());
 		
-		// getting the value arrays
-		ArrayList<String> nounList = partsOfSpeech.get("noun");
-		ArrayList<String> adjectiveList = partsOfSpeech.get("adjective");
-		ArrayList<String> adverbList = partsOfSpeech.get("adverb");
-		ArrayList<String> verbList = partsOfSpeech.get("verb");
+		// lowercased so we can match with words in the text files
+		String lowerCaseSentence = sentence.toLowerCase();
 		
-		for (int i = 0; i < wordList.length; i++) {
-			// removes all punctuation
-			String word = wordList[i].replaceAll("[^\\w]", "");
+		// builds a word up until a non letter is detected
+		StringBuilder currentWord = new StringBuilder();
+		boolean startOfWord = false;
+		for (int i = 0; i < lowerCaseSentence.length(); i++) {
+			char currentChar = lowerCaseSentence.charAt(i);
 			
-			// need lowercased word to have case insensitive checks with the parts of speech text files
-			String lowerCasedWord = word.toLowerCase();
-			
-			//if the word is found in the corresponding part of speech text file, add it to the corresponding part of speech array
-			if (nounDict.contains(lowerCasedWord) && !nounList.contains(word)) {
-				nounList.add(word);
-			} else if (adjDict.contains(lowerCasedWord) && !adjectiveList.contains(word)) {
-				adjectiveList.add(word);
-			} else if (verbDict.contains(lowerCasedWord) && !verbList.contains(word)) {
-				verbList.add(word);
-			} else if (adverbDict.contains(lowerCasedWord) && !adverbList.contains(word)) {
-				adverbList.add(word);
+			// indicates the start of a word
+			if (Character.isAlphabetic(currentChar) && !startOfWord) {
+				startOfWord = true;
 			}
+			
+			// indicates the end of a word
+			if (!Character.isLetter(currentChar) && startOfWord) {
+				startOfWord = false;
+				// evaluates the part of speech and adds it to the hashmap
+				addToPartOfSpeechMap(partsOfSpeech, currentWord.toString(), i + 1);
+				currentWord.setLength(0); // resets the StringBuilder
+			}
+			
+			// building the word
+			if (startOfWord) {
+				currentWord.append(currentChar);
+			}
+			
 		}
 		return partsOfSpeech;
+	}
+	
+	public final String getWord(int idx) {
+		StringBuilder after = new StringBuilder();
+		// get characters after
+		for (int i = idx; i < sentence.length(); i++) {
+			char currentChar = sentence.charAt(i);
+			if (Character.isLetter(currentChar)) {
+				after.append(currentChar);
+			} else {
+				break;
+			}
+		}
+		StringBuilder before = new StringBuilder();
+		// get characters before
+		for (int i = idx - 1; i >= 0; i--) {
+			char currentChar = sentence.charAt(i);
+			if (Character.isLetter(currentChar)) {
+				before.append(currentChar);
+			} else {
+				break;
+			}
+		}
+		return before.reverse().toString() + after.toString();
 	}
 }
