@@ -23,6 +23,7 @@ import java.util.HashMap;
 	Definite Article      		 	D
 	Indefinite Article    		 	I
 	Nominative              	 	o
+	
  */
 public class Dictionary {
 	private final HashMap<String, String> dict;

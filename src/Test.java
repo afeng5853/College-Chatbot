@@ -11,10 +11,9 @@ public class Test {
 		SentenceParser test = new SentenceParser("What do you think about Stony Brook?");
 		Dictionary dict = new Dictionary();
 		CollegeParser collegeParser = new CollegeParser("i want to go to COLLEGE OF THE OZARKS");
-		//System.out.println(dict.getPartOfSpeech("my"));
+		System.out.println(collegeParser.getColleges());
 		//System.out.println(test.getPartsOfSpeech());
 		//System.out.println(test.getWord(13));
-		//System.out.println(collegeParser);
 	}
 
 	public static int findKeyword(String sentence, String keyword, int start) {

@@ -24,8 +24,6 @@ public class CollegeParser {
 			build.append(str.toLowerCase() + "|");
 		}
 		collegeList = build.toString();
-		
-		System.out.println(getColleges());
 		in.close();
 	}
 	
@@ -42,7 +40,7 @@ public class CollegeParser {
 		return build.toString();
 	}
 	
-	private ArrayList<ArrayList<String>> getColleges() {
+	public ArrayList<ArrayList<String>> getColleges() {
 		int collegeIdx = sentence.indexOf("College");
 		ArrayList<ArrayList<String>> potentialColleges = findSubsequentTitleCasedWords();
 		ArrayList<ArrayList<String>> colleges = new ArrayList<>();

@@ -15,6 +15,7 @@ import java.util.HashMap;
 public class SentenceParser {
 	private final Dictionary dict;
 	private final String sentence;
+	
 	// will have each part of speech be a key and a corresponding array
 	private String partOfSpeeches = "";
 	
