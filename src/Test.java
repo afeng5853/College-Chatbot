@@ -1,15 +1,17 @@
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-import dictionaries.*;
+import grammar.Dictionary;
+import grammar.SentenceParser;
 
 public class Test {
 
 	public static void main(String[] args) throws FileNotFoundException, IOException {
-		// TODO Auto-generated method stub
-		SentenceManipulator test = new SentenceManipulator("the quick brown fox jumps over the lazy dog.");
+		SentenceParser test = new SentenceParser("What do you think about Harvard?");
+		Dictionary dict = new Dictionary();
+		//System.out.println(dict.getPartOfSpeech("my"));
 		System.out.println(test.getPartsOfSpeech());
-		System.out.println(test.getWord(40));
+		//System.out.println(test.getWord(13));
 	}
 
 	public static int findKeyword(String sentence, String keyword, int start) {

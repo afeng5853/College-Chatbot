@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import dictionaries.SentenceManipulator;
+import grammar.SentenceParser;
 
 /**
  * A program to carry on conversations with a human user.
@@ -29,8 +29,8 @@ public class ChatBotFeng extends ChatBotLevin implements Emotion
 	 */
 	public String getResponse(String statement) throws FileNotFoundException, IOException
 	{
-		SentenceManipulator sentenceParser = new SentenceManipulator(statement);
-		HashMap<String, ArrayList<Integer>> partsOfSpeech = sentenceParser.getPartsOfSpeech();
+		SentenceParser sentenceParser = new SentenceParser(statement);
+		/*HashMap<String, ArrayList<Integer>> partsOfSpeech = sentenceParser.getPartsOfSpeech();
 		ArrayList<Integer> nounIndices = partsOfSpeech.get("noun");
 		System.out.println(nounIndices);
 		
@@ -44,7 +44,8 @@ public class ChatBotFeng extends ChatBotLevin implements Emotion
 		{
 			response = "Say something, please.";
 		}
-
-		return response;
+		*/
+		return "";
+		
 	}
 }

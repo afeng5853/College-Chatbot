@@ -4,9 +4,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import utils.TextFileReader;
+import grammar.Dictionary;
 
-public class CollegeParser extends TextFileReader{
+public class CollegeParser extends Dictionary{
 	private final String sentence;
 
 	public CollegeParser(String sentence) throws FileNotFoundException, IOException {
