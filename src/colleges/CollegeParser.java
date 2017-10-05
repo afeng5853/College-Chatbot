@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import grammar.Dictionary;
 import grammar.SentenceParser;
 
-public class CollegeParser {
+public class CollegeParser{
 	private final String sentence;
 	private String collegeList;
 
