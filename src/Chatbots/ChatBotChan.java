@@ -26,7 +26,7 @@ public class ChatBotChan extends ChatBotLevin implements Emotion
 		{
 			response = "If you do not respond with an interest, I cannot give you a suggestion";
 		}
-		else if (findKeyword(statement, "math", 0) >= 0)
+		else if (findKeyword(statement, "math", 0) >= 0 || findKeyword(statement, "mathematics", 0) >= 0)
 		{
 			response = "The economics major, or computer science major may be a good choice in regards to your interests.";
 		}
