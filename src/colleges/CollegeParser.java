@@ -40,17 +40,17 @@ public class CollegeParser {
 		return build.toString();
 	}
 	
-	public ArrayList<ArrayList<String>> getColleges() {
+	public ArrayList<String> getColleges() {
 		int collegeIdx = sentence.indexOf("College");
 		ArrayList<ArrayList<String>> potentialColleges = findSubsequentTitleCasedWords();
-		ArrayList<ArrayList<String>> colleges = new ArrayList<>();
+		ArrayList<String> colleges = new ArrayList<>();
 		for (ArrayList<String> potentialCollege : potentialColleges) {
 			String potentialCollegeStr = joinArrayList(potentialCollege).toLowerCase();
 			// special case (generalize later	)
 			if (potentialCollegeStr.equals("mit")) {
-				colleges.add(potentialCollege);
+				colleges.add(potentialCollegeStr);
 			} else if (collegeList.indexOf(potentialCollegeStr) != -1) {
-				colleges.add(potentialCollege);
+				colleges.add(potentialCollegeStr);
 			}
 		}
 		return colleges;
