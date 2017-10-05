@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import colleges.CollegeParser;
 import grammar.SentenceParser;
+import com.opencsv.CSVReader;
 
 /**
  * A program to carry on conversations with a human user.
@@ -29,23 +31,52 @@ public class ChatBotFeng extends ChatBotLevin implements Emotion
 	 */
 	public String getResponse(String statement) throws FileNotFoundException, IOException
 	{
-		SentenceParser sentenceParser = new SentenceParser(statement);
-		/*HashMap<String, ArrayList<Integer>> partsOfSpeech = sentenceParser.getPartsOfSpeech();
-		ArrayList<Integer> nounIndices = partsOfSpeech.get("noun");
-		System.out.println(nounIndices);
+		CollegeParser collegeParser = new CollegeParser(statement);
+		ArrayList<String> colleges = collegeParser.getColleges();
+		String response = "";
 		
-		String response = "I like ";
-		
-		for (int index : nounIndices) {
-			response += sentenceParser.getWord(index) + ", ";
+		if (userQuestions()) {
+			if (colleges.size() > 0) {
+				if (userRequestsSATScore(statement) != -1) {
+					getSATResponse(statement, colleges);
+				} else if (userRequestsGPA(statement) != -1) {
+					
+				}
+			}
 		}
 		
-		if (statement.length() == 0)
-		{
-			response = "Say something, please.";
-		}
-		*/
-		return "";
 		
+		return response;
+	}
+	
+	private int userRequestsSATScore(String statement) {
+		return findKeyword(statement, "SAT");
+	}
+	
+	private int userRequestsGPA(String statement) {
+		return findKeyword(statement, "GPA");
+	}
+	
+	private String getSATResponse(String statement, ArrayList<String> colleges) {
+		// only 1 college!
+		if (colleges.size() > 1) {
+			return "I can only give an SAT score for one college at a time";
+		}
+		// will work on multiple colleges later
+		for (String college : colleges) {
+			int avgSatScore = getAvgSATScore(college);
+			return "The average SAT score for " + college + " is ":
+		}
+	}
+	
+	private int getAvgSATScore(String college) {
+		//college column d, sat score column BH
+		CSVReader csvReader = new CSVReader(new FileReader("src/colleges/college data.csv"), ",");
+		String [] nextLine;
+		for (String field: nextLine) {
+		      if (field.matches(searchWord)) {
+		         // matched word...
+		      }
+		   }
 	}
 }
