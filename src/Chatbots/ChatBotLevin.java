@@ -192,7 +192,6 @@ public class ChatBotLevin implements Emotion
 	{
 		return findKeyword (statement, goal, 0);
 	}
-	
 
 
 	/**

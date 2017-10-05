@@ -35,7 +35,7 @@ public class ChatBotFeng extends ChatBotLevin implements Emotion
 		ArrayList<String> colleges = collegeParser.getColleges();
 		String response = "";
 		
-		if (userQuestions()) {
+		if (userQuestions(statement)) {
 			if (colleges.size() > 0) {
 				if (userRequestsSATScore(statement) != -1) {
 					getSATResponse(statement, colleges);
