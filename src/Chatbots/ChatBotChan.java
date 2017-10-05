@@ -34,7 +34,7 @@ public class ChatBotChan extends ChatBotLevin implements Emotion
 		{
 			response = "Majors involving the English language or literature may be a good choice in regards to your interests.";
 		}
-		else if (findKeyword(statement, "buisness", 0) >= 0 || findKeyword(statement, "finance", 0) >= 0 || findKeyword(statement, "statistics", 0) >= 0 || findKeyword(statement, "money", 0) >= 0)
+		else if (findKeyword(statement, "business", 0) >= 0 || findKeyword(statement, "finance", 0) >= 0 || findKeyword(statement, "statistics", 0) >= 0 || findKeyword(statement, "money", 0) >= 0)
 		{
 			response = "I have a few matches, but please answer this question to allow me to narrow down"
 					+ " the choices. Do you consider yourself a strong leader? Please answer with a yes or no.";
@@ -50,7 +50,7 @@ public class ChatBotChan extends ChatBotLevin implements Emotion
 			}
 			else
 			{
-				response = "Please type a vaid answer.";
+				response = "Please type a valid answer.";
 			}
 		}
 		else if (findKeyword(statement, "science", 0) >= 0)
