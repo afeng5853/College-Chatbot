@@ -23,6 +23,7 @@ public class SentenceParser {
 		this.sentence = sentence;
 		setPartsOfSpeech();
 	}
+	
 
 	public final String getPartsOfSpeech() {
 		return partOfSpeeches;
@@ -145,5 +146,32 @@ public class SentenceParser {
 		}
 		
 		return modifiers;
+	}
+	
+	public static ArrayList<String> getWords(String sentence) {
+		StringBuilder currentWord = new StringBuilder();
+		ArrayList<String> wordList = new ArrayList<>();
+		boolean startOfWord = false;
+		for (int i = 0; i < sentence.length(); i++) {
+			char currentChar = sentence.charAt(i);
+			
+			// indicates the start of a word
+			if (Character.isLetter(currentChar) && !startOfWord) {
+				startOfWord = true;
+			}
+			
+			// building the word
+			if (startOfWord && Character.isLetter(currentChar)) {
+				currentWord.append(currentChar);
+			}
+			
+			// indicates the end of a word
+			if ((!Character.isLetter(currentChar) || i == sentence.length() - 1) && startOfWord) {
+				startOfWord = false;
+				wordList.add(currentWord.toString());
+				currentWord.setLength(0); // resets the StringBuilder
+			}
+		}
+		return wordList;
 	}
 }

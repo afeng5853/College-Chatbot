@@ -3,15 +3,18 @@ import java.io.IOException;
 
 import grammar.Dictionary;
 import grammar.SentenceParser;
+import colleges.CollegeParser;
 
 public class Test {
 
 	public static void main(String[] args) throws FileNotFoundException, IOException {
-		SentenceParser test = new SentenceParser("What do you think about Harvard?");
+		SentenceParser test = new SentenceParser("What do you think about Stony Brook?");
 		Dictionary dict = new Dictionary();
+		CollegeParser collegeParser = new CollegeParser("i want to go to COLLEGE OF THE OZARKS");
 		//System.out.println(dict.getPartOfSpeech("my"));
-		System.out.println(test.getPartsOfSpeech());
+		//System.out.println(test.getPartsOfSpeech());
 		//System.out.println(test.getWord(13));
+		//System.out.println(collegeParser);
 	}
 
 	public static int findKeyword(String sentence, String keyword, int start) {
