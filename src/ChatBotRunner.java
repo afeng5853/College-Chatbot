@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Scanner;
 
 import Chatbots.ChatBotLevin;
+import Chatbots.ChatBotZhou;
 import Chatbots.ChatBotFeng;
 
 /**
@@ -21,7 +22,10 @@ public class ChatBotRunner
 	 */
 	public static void main(String[] args) throws FileNotFoundException, IOException
 	{
-		ChatBotFeng chatbot1 = new ChatBotFeng();
+		ChatBotCheung chatbot1 = new ChatBotCheung();
+		//ChatBotFeng chatbot1 = new ChatBotFeng();
+		//ChatBotZhou chatbot2 = new ChatBotZhou();
+		//chatbot2.getResponse("My mom went to Princeton University, while my Dad went to Stony Brook");
 		
 		System.out.println (chatbot1.getGreeting());
 		Scanner in = new Scanner (System.in);

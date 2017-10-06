@@ -6,5 +6,5 @@ public interface Emotion {
 	int angry = 0;
 	int humor = 0;
 	int disgusted = 0;
-	
+	int patience = 0;
 }

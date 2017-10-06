@@ -16,7 +16,7 @@ public class ChatBotLevin implements Emotion
 	 * Get a default greeting 	
 	 * @return a greeting
 	 */	
-	public String getGreeting()
+	protected String getGreeting()
 	{
 		return "Hi, what is up?";
 	}
@@ -30,7 +30,7 @@ public class ChatBotLevin implements Emotion
 	 * @throws IOException 
 	 * @throws FileNotFoundException 
 	 */
-	public String getResponse(String statement) throws FileNotFoundException, IOException
+	protected String getResponse(String statement) throws FileNotFoundException, IOException
 	{
 		String response = "";
 		
@@ -48,7 +48,7 @@ public class ChatBotLevin implements Emotion
 	 * @param statement the user statement, assumed to contain "I want to"
 	 * @return the transformed statement
 	 */
-	private String transformIWantToStatement(String statement)
+	protected String transformIWantToStatement(String statement)
 	{
 		//  Remove the final period, if there is one
 		statement = statement.trim();
@@ -71,7 +71,7 @@ public class ChatBotLevin implements Emotion
 	 * @param statement the user statement, assumed to contain "I want"
 	 * @return the transformed statement
 	 */
-	private String transformIWantStatement(String statement)
+	protected String transformIWantStatement(String statement)
 	{
 		//  Remove the final period, if there is one
 		statement = statement.trim();
@@ -94,7 +94,7 @@ public class ChatBotLevin implements Emotion
 	 * @param statement the user statement, assumed to contain "I" followed by "you"
 	 * @return the transformed statement
 	 */
-	private String transformIYouStatement(String statement)
+	protected String transformIYouStatement(String statement)
 	{
 		//  Remove the final period, if there is one
 		statement = statement.trim();
@@ -132,7 +132,7 @@ public class ChatBotLevin implements Emotion
 	 * @return the index of the first occurrence of goal in
 	 *         statement or -1 if it's not found
 	 */
-	private int findKeyword(String statement, String goal,
+	protected int findKeyword(String statement, String goal,
 			int startPos)
 	{
 		String phrase = statement.trim().toLowerCase();
@@ -188,18 +188,17 @@ public class ChatBotLevin implements Emotion
 	 * @param goal the string to search for
 	 * @return the index of the first occurrence of goal in statement or -1 if it's not found
 	 */
-	private int findKeyword(String statement, String goal)
+	protected int findKeyword(String statement, String goal)
 	{
 		return findKeyword (statement, goal, 0);
 	}
-	
 
 
 	/**
 	 * Pick a default response to use if nothing else fits.
 	 * @return a non-committal string
 	 */
-	private String getRandomResponse ()
+	protected String getRandomResponse ()
 	{
 		Random r = new Random ();
 		if (emotion == 0)
@@ -213,7 +212,7 @@ public class ChatBotLevin implements Emotion
 		return randomHappyResponses [r.nextInt(randomHappyResponses.length)];
 	}
 	
-	private String [] randomNeutralResponses = {"Interesting, tell me more",
+	protected String [] randomNeutralResponses = {"Interesting, tell me more",
 			"Hmmm.",
 			"Do you really think so?",
 			"You don't say.",
@@ -221,7 +220,11 @@ public class ChatBotLevin implements Emotion
 			"So, would you like to go for a walk?",
 			"Could you say that again?"
 	};
-	private String [] randomAngryResponses = {"Bahumbug.", "Harumph", "The rage consumes me!"};
-	private String [] randomHappyResponses = {"H A P P Y, what's that spell?", "Today is a good day", "You make me feel like a brand new pair of shoes."};
+	protected String [] randomAngryResponses = {"Bahumbug.", "Harumph", "The rage consumes me!"};
+	protected String [] randomHappyResponses = {"H A P P Y, what's that spell?", "Today is a good day", "You make me feel like a brand new pair of shoes."};
 	
+	
+	protected boolean userQuestions(String statement) {
+		return statement.indexOf("?") != -1;
+	}
 }
