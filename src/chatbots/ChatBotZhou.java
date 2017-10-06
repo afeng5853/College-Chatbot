@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import colleges.CollegeParser;
+import util.TextFileReader;
 
 /**
  * A program to carry on conversations with a human user.
@@ -23,6 +24,31 @@ public class ChatBotZhou extends ChatBotBase
 		System.out.println(colleges);
 		return response;
 	}
-	//pls
+	
+	public String printQuestion(int number) throws FileNotFoundException, IOException
+	{
+		TextFileReader text = new TextFileReader("src/sat problems/grammar.txt");
+		ArrayList<String> textfile = text.getDict();
+		String response = "";
+		boolean isQuestion = false;
+		for (int i = 0; i < textfile.size(); i++)
+		{
+			String line = textfile.get(i);
+			if (line.equals(""))
+			{
+				return response;
+			}
+			if (isQuestion)
+			{
+				response += line;
+			}
+			if ((int)line.charAt(0) == number)
+			{
+				isQuestion = true;
+			}
+			
+		}
+		return response;
+	}
 	 
 }
