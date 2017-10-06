@@ -1,11 +1,12 @@
+package chatbots;
 
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import Chatbots.ChatBotBase;
-import Chatbots.Emotion;
+import chatbots.ChatBotBase;
+import chatbots.Emotion;
 import grammar.FinanceDictionary;
 import grammar.SentenceParser;;
 

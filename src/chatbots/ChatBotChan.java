@@ -1,4 +1,4 @@
-package Chatbots;
+package chatbots;
 import java.util.Random;
 import java.util.Scanner;
 

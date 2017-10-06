@@ -3,9 +3,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Scanner;
 
-import Chatbots.ChatBotBase;
-import Chatbots.ChatBotZhou;
-import Chatbots.ChatBotFeng;
+import chatbots.ChatBotBase;
+import chatbots.ChatBotFeng;
+import chatbots.ChatBotZhou;
 
 /**
  * A simple class to run our chatbot teams.
