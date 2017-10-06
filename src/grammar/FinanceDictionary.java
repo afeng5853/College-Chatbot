@@ -1,4 +1,4 @@
-package dictionaries;
+package grammar;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;

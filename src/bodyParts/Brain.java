@@ -10,10 +10,12 @@ public class Brain {
 		memory.put(memoryType, new ArrayList<String>());
 	}
 	
-	public void addToMemory(String location, ArrayList<String> things) {
+	public void addToMemory(String location, String thing) {
 		ArrayList<String> memoryLocation = memory.get(location);
-		for (String thing : things) {
-			memoryLocation.add(thing);
-		}
+		memoryLocation.add(thing);
+	}
+	
+	public ArrayList<String> getMemory(String location) {
+		return memory.get(location);
 	}
 }
