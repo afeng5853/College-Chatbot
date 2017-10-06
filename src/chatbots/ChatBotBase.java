@@ -32,7 +32,7 @@ public class ChatBotBase implements Emotion
 	 * @throws IOException 
 	 * @throws FileNotFoundException 
 	 */
-	protected String genericResponse(String statement) throws FileNotFoundException, IOException
+	public String genericResponse(String statement) throws FileNotFoundException, IOException
 	{
 		String response = "";
 		
@@ -76,7 +76,7 @@ public class ChatBotBase implements Emotion
 	 * @param statement the user statement, assumed to contain "I want to"
 	 * @return the transformed statement
 	 */
-	protected String transformIWantToStatement(String statement)
+	public String transformIWantToStatement(String statement)
 	{
 		//  Remove the final period, if there is one
 		statement = statement.trim();
@@ -99,7 +99,7 @@ public class ChatBotBase implements Emotion
 	 * @param statement the user statement, assumed to contain "I want"
 	 * @return the transformed statement
 	 */
-	protected String transformIWantStatement(String statement)
+	public String transformIWantStatement(String statement)
 	{
 		//  Remove the final period, if there is one
 		statement = statement.trim();
@@ -122,7 +122,7 @@ public class ChatBotBase implements Emotion
 	 * @param statement the user statement, assumed to contain "I" followed by "you"
 	 * @return the transformed statement
 	 */
-	protected String transformIYouStatement(String statement)
+	public String transformIYouStatement(String statement)
 	{
 		//  Remove the final period, if there is one
 		statement = statement.trim();
@@ -157,7 +157,7 @@ public class ChatBotBase implements Emotion
 	 * @return the index of the first occurrence of goal in
 	 *         statement or -1 if it's not found
 	 */
-	protected int findKeyword(String statement, String goal,
+	public int findKeyword(String statement, String goal,
 			int startPos)
 	{
 		String phrase = statement.trim().toLowerCase();
@@ -213,7 +213,7 @@ public class ChatBotBase implements Emotion
 	 * @param goal the string to search for
 	 * @return the index of the first occurrence of goal in statement or -1 if it's not found
 	 */
-	protected int findKeyword(String statement, String goal)
+	public int findKeyword(String statement, String goal)
 	{
 		return findKeyword (statement, goal, 0);
 	}
@@ -223,7 +223,7 @@ public class ChatBotBase implements Emotion
 	 * Pick a default response to use if nothing else fits.
 	 * @return a non-committal string
 	 */
-	protected String getRandomResponse ()
+	public String getRandomResponse ()
 	{
 		Random r = new Random ();
 		if (emotion == 0)
@@ -237,7 +237,7 @@ public class ChatBotBase implements Emotion
 		return randomHappyResponses [r.nextInt(randomHappyResponses.length)];
 	}
 	
-	protected String [] randomNeutralResponses = {"Interesting, tell me more",
+	public String [] randomNeutralResponses = {"Interesting, tell me more",
 			"Hmmm.",
 			"Do you really think so?",
 			"You don't say.",
@@ -245,12 +245,12 @@ public class ChatBotBase implements Emotion
 			"So, would you like to go for a walk?",
 			"Could you say that again?"
 	};
-	protected String [] randomAngryResponses = {"Bahumbug.", "Harumph", "The rage consumes me!"};
-	protected String [] randomHappyResponses = {"H A P P Y, what's that spell?", "Today is a good day", "You make me feel like a brand new pair of shoes."};
+	public String [] randomAngryResponses = {"Bahumbug.", "Harumph", "The rage consumes me!"};
+	public String [] randomHappyResponses = {"H A P P Y, what's that spell?", "Today is a good day", "You make me feel like a brand new pair of shoes."};
 	
 	/* End Levin's Methods */
 	
-	protected boolean userQuestions(String statement) {
+	public boolean userQuestions(String statement) {
 		return statement.indexOf("?") != -1;
 	}
 	
