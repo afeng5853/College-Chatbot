@@ -42,7 +42,7 @@ public class ChatBotCheung extends ChatBotBase implements Emotion
 			response = "Please type something. I can help you with college finance. ";
 		}
 		else if (findKeyword(statement,"help")  >= 0) {
-			response = fasfa;
+			response = fasfa; 
 		}
 		else if (inDictionary(statement, finance)){
 			response = "Would you like help with college finance?";

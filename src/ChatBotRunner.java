@@ -33,7 +33,7 @@ public class ChatBotRunner
 		String statement = in.nextLine();
 		//System.out.println(chatbot1.getResponse(statement));
 
-		
+		 
 		while (!statement.equals("Bye"))
 		{
 			System.out.println (chatbot1.getResponse(statement));
