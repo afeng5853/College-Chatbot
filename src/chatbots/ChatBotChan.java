@@ -3,7 +3,7 @@ import java.util.Random;
 import java.util.Scanner;
 
 /**
- * A program to carry on conversations with a human user.
+ * A program to carry on conversations with a human user. Used to recommend majors based on interests.
  * This version:
  * @author Alex Chan
  * @version September 2017
@@ -51,6 +51,7 @@ public class ChatBotChan extends ChatBotBase implements Emotion
 			else
 			{
 				response = "Please type a valid answer.";
+				patience++;
 			}
 		}
 		else if (findKeyword(statement, "science", 0) >= 0)
@@ -58,15 +59,40 @@ public class ChatBotChan extends ChatBotBase implements Emotion
 			response = "What fields of science do you have an interest in?";
 			System.out.println(response);
 			statement = in.nextLine();
-			if(findKeyword(statement, "biology", 0) >= 0)
+			if(findKeyword(statement, "biology", 0) >= 0 || findKeyword(statement, "enviorment", 0) >= 0)
 			{
-				response = "The biology major is a good choice";
+				response = "The biology major is a good choice.";
 			}
+			else if (findKeyword(statement, "chemistry", 0) >= 0)
+			{
+				response = "The chemical engineering major is a good choice. Biochemistry also works too.";
+			}
+			else if (findKeyword(statement, "medicine", 0) >= 0)
+			{
+				response = "The nursing major is a good choice.";
+			}
+			else
+			{
+				response = "I am sorry but your answer is beyond my listed recommendations";
+				
+			}
+		}
+		else if (findKeyword(statement, "I want to", 0) >= 0)
+		{
+			response = transformIWantToStatement(statement);
+		}
+		else if (findKeyword(statement, "I want",0) >= 0)
+		{
+			response = transformIWantStatement(statement);
+		}	
+		else
+		{
+			response = getRandomResponse();
 		}
 		return response;
 	}
 	
-	private int findKeyword(String statement, String goal, int startPos)
+	public int findKeyword(String statement, String goal, int startPos)
 	{
 		String phrase = statement.trim().toLowerCase();
 		goal = goal.toLowerCase();
@@ -106,4 +132,28 @@ public class ChatBotChan extends ChatBotBase implements Emotion
 		}
 		return -1;
 	}
+	
+	public String getRandomResponse()
+	{
+		Random r = new Random ();
+		if (emotion == 0)
+		{	
+			return randomNeutralResponses [r.nextInt(randomNeutralResponses.length)];
+		}
+		if (emotion < 0)
+		{	
+			return randomAngryResponses [r.nextInt(randomAngryResponses.length)];
+		}	
+		return randomHappyResponses [r.nextInt(randomHappyResponses.length)];
+	}
+	public String [] randomNeutralResponses = {"Interesting, tell me more",
+			"Hmmm.",
+			"Do you really think so?",
+			"You don't say.",
+			"It's all boolean to me.",
+			"I'm not sure if I quite understood that.",
+			"Could you say that again?"
+	};
+	public String [] randomAngryResponses = {"Stop fooling around", "Harumph", "The rage consumes me!"};
+	public String [] randomHappyResponses = {"H A P P Y, what's that spell?", "Today is a good day", "You make me feel like a brand new pair of shoes."};
 }
