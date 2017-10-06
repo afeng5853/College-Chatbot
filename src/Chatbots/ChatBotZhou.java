@@ -12,7 +12,7 @@ import colleges.CollegeParser;
  * @author Mr. Levin
  * @version September 2017
  */
-public class ChatBotZhou extends ChatBotLevin
+public class ChatBotZhou extends ChatBotBase
 {
 	public String getResponse(String statement) throws FileNotFoundException, IOException
 	{

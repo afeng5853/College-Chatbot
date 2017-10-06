@@ -6,9 +6,17 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import com.opencsv.CSVReader;
+
 import grammar.Dictionary;
 import grammar.SentenceParser;
 
+/**
+ * College-related parsing
+ * This version:
+ * @author Alex Feng
+ * @version October 2017
+ */
 public class CollegeParser{
 	private final String sentence;
 	private String collegeList;
@@ -27,7 +35,7 @@ public class CollegeParser{
 		in.close();
 	}
 	
-	//move to util
+	//move to utils
 	private String joinArrayList(ArrayList<String> A) {
 		StringBuilder build = new StringBuilder();
 		for (int i = 0; i < A.size(); i++) {
@@ -45,12 +53,13 @@ public class CollegeParser{
 		ArrayList<ArrayList<String>> potentialColleges = findSubsequentTitleCasedWords();
 		ArrayList<String> colleges = new ArrayList<>();
 		for (ArrayList<String> potentialCollege : potentialColleges) {
-			String potentialCollegeStr = joinArrayList(potentialCollege).toLowerCase();
+			String college = joinArrayList(potentialCollege);
+			String collegeLowerCased = college.toLowerCase();
 			// special case (generalize later	)
-			if (potentialCollegeStr.equals("mit")) {
-				colleges.add(potentialCollegeStr);
-			} else if (collegeList.indexOf(potentialCollegeStr) != -1) {
-				colleges.add(potentialCollegeStr);
+			if (collegeLowerCased.equals("mit")) {
+				colleges.add(college);
+			} else if (collegeList.indexOf(collegeLowerCased) != -1) {
+				colleges.add(college);
 			}
 		}
 		return colleges;
@@ -67,6 +76,9 @@ public class CollegeParser{
 				ArrayList<String> mit = new ArrayList<>();
 				potentialColleges.add(mit);
 			} else if (str.charAt(0) == Character.toUpperCase(str.charAt(0)) || str.equals("of") || str.equals("the") || str.equals("at")) {
+				if (count == 0 && (str.equals("of") || str.equals("at") || str.equals("the"))) {
+					continue;
+				}
 				count++;
 				potentialCollege.add(str);
 				// if string is last word
@@ -82,5 +94,24 @@ public class CollegeParser{
 			}
 		}
 		return potentialColleges;
+	}
+	
+	public static String getCollegeData(String college, int rowIdx) throws IOException {
+		CSVReader csvReader = new CSVReader(new FileReader("src/colleges/college data.csv"));
+		String returnStr = null;
+		String[] row;
+		while ((row = csvReader.readNext()) != null) {
+			if (row[0].toLowerCase().indexOf(college.toLowerCase()) != -1) {
+				String data = row[rowIdx];
+				if (data.equals("NULL")) {
+					returnStr = null;
+				} else {
+					returnStr = data;
+				}
+				break;
+			}
+		}
+		csvReader.close();
+		return returnStr;
 	}
 }

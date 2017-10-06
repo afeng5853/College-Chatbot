@@ -12,6 +12,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * Sentence-related parsing
+ * This version:
+ * @author Alex Feng
+ * @version October 2017
+ */
 public class SentenceParser {
 	private final Dictionary dict;
 	private final String sentence;

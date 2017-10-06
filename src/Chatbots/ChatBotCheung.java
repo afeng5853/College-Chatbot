@@ -4,7 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import Chatbots.ChatBotLevin;
+import Chatbots.ChatBotBase;
 import Chatbots.Emotion;
 import grammar.FinanceDictionary;
 import grammar.SentenceParser;;
@@ -17,7 +17,7 @@ import grammar.SentenceParser;;
  * @version September 2017
  */
 
-public class ChatBotCheung extends ChatBotLevin implements Emotion
+public class ChatBotCheung extends ChatBotBase implements Emotion
 {
 	public ChatBotCheung() {
 	}

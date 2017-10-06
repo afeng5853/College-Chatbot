@@ -25,6 +25,13 @@ import java.util.HashMap;
 	Nominative              	 	o
 	
  */
+
+/**
+ * A dictionary for parts of speech, to be used after done with basic capabilities
+ * This version:
+ * @author Alex Feng
+ * @version October 2017
+ */
 public class Dictionary {
 	private final HashMap<String, String> dict;
 	

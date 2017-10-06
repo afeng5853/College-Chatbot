@@ -8,7 +8,7 @@ import java.util.Scanner;
  * @author Alex Chan
  * @version September 2017
  */
-public class ChatBotChan extends ChatBotLevin implements Emotion
+public class ChatBotChan extends ChatBotBase implements Emotion
 {
 	Scanner in = new Scanner (System.in);
 	public ChatBotChan()
