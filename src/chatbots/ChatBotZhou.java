@@ -31,11 +31,13 @@ public class ChatBotZhou extends ChatBotBase
 		ArrayList<String> textfile = text.getDict();
 		String response = "";
 		boolean isQuestion = false;
+		Character answer;
 		for (int i = 0; i < textfile.size(); i++)
 		{
 			String line = textfile.get(i);
 			if (line.equals("") && isQuestion)
 			{
+				answer = line.charAt(3);
 				return response;
 			}
 			if (isQuestion)
