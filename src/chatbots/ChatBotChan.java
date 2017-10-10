@@ -153,6 +153,7 @@ public class ChatBotChan extends ChatBotBase implements Emotion
 		}	
 		return randomHappyResponses [r.nextInt(randomHappyResponses.length)];
 	}
+	
 	public String [] randomNeutralResponses = {"Interesting, tell me more",
 			"Hmmm.",
 			"Do you really think so?",
