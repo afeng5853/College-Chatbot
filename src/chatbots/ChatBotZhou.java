@@ -25,24 +25,24 @@ public class ChatBotZhou extends ChatBotBase
 		return response;
 	}
 	
-	public String printQuestion(int number) throws FileNotFoundException, IOException
+	public String printQuestion(int number, String category) throws FileNotFoundException, IOException
 	{
-		TextFileReader text = new TextFileReader("src/sat problems/grammar.txt");
+		TextFileReader text = new TextFileReader("src/sat problems/" + category + ".txt");
 		ArrayList<String> textfile = text.getDict();
 		String response = "";
 		boolean isQuestion = false;
 		for (int i = 0; i < textfile.size(); i++)
 		{
 			String line = textfile.get(i);
-			if (line.equals(""))
+			if (line.equals("") && isQuestion)
 			{
 				return response;
 			}
 			if (isQuestion)
 			{
-				response += line;
+				response += line + "\n";
 			}
-			if ((int)line.charAt(0) == number)
+			if ((int)line.charAt(0) == line.charAt(0))
 			{
 				isQuestion = true;
 			}
@@ -51,4 +51,10 @@ public class ChatBotZhou extends ChatBotBase
 		return response;
 	}
 	 
+	public String printL(int num) throws FileNotFoundException, IOException
+	{
+		TextFileReader text = new TextFileReader("src/sat problems/grammar.txt");
+		ArrayList<String> textfile = text.getDict();
+		return textfile.get(6);
+	}
 }

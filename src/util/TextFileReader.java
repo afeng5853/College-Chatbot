@@ -25,4 +25,9 @@ public class TextFileReader {
 	 	public final boolean contains(String word) {
 	 		return dict.contains(word);
 	 	}
+
+		public ArrayList<String> getDict() {
+			// TODO Auto-generated method stub
+			return dict;
+		}
 }
