@@ -69,7 +69,9 @@ public class ChatBotFeng extends ChatBotBase implements Emotion
 			findKeyword(statement, "wheres") != -1) {
 			//Where questions
 			response = parseWhereQuestion(statement, colleges);
-		} else {
+		} else if (findKeyword(statement, "can") != -1) {
+			response = "Can I? Of course I can!";
+		} 	else {
 			response = genericResponse(statement);
 		}
 		
@@ -106,6 +108,10 @@ public class ChatBotFeng extends ChatBotBase implements Emotion
 				brain.addToMemory("action", "what gpa");
 				response = "Sorry that data is currently unavailable";
 			} 
+			else if (userRequestsLocation(statement)) {
+				brain.addToMemory("action", "where is");
+				response = getLocationResponse(statement, colleges);
+			}
 			else if (userQueriesCollege(statement, colleges)) {
 				brain.addToMemory("action", "how is");
 				response = getOpinion(statement, colleges);
@@ -186,7 +192,8 @@ public class ChatBotFeng extends ChatBotBase implements Emotion
 	
 	private boolean userRequestsLocation(String statement) {
 		statement = statement.toLowerCase();
-		return findKeyword(statement, "is") != -1;
+		return findKeyword(statement, "where") != -1 && 
+				findKeyword(statement, "is") != -1 || findKeyword(statement, "location") != -1;
 	}
 	
 	private boolean userRequestsCost(String statement) {
