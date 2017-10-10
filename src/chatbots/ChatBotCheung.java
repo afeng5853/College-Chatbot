@@ -73,8 +73,7 @@ public class ChatBotCheung extends ChatBotBase implements Emotion
 			response = "Please type something. I can help you with college finance.";
 		}
 		else if (findKeyword(statement, "calculator") >= 0) {
-			System.out.println(calculateAid() + " is your expected cost!"
-					);
+			response = calculateAid() + " is your expected cost!";
 		}
 		else if (findKeyword(statement, "terms") >= 0 || findKeyword(statement, "define") >= 0) {
 			response = "I can define the following terms: " + Arrays.toString(terms);
