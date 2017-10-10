@@ -10,6 +10,7 @@ import java.util.Scanner;
  */
 public class ChatBotChan extends ChatBotBase implements Emotion
 {
+	private int emotion = 0;
 	Scanner in = new Scanner (System.in);
 	public ChatBotChan()
 	{
@@ -25,16 +26,27 @@ public class ChatBotChan extends ChatBotBase implements Emotion
 		if (statement.length() == 0)
 		{
 			response = "If you do not respond with an interest, I cannot give you a suggestion";
+			emotion++;
 		}
 		else if (findKeyword(statement, "math", 0) >= 0 || findKeyword(statement, "mathematics", 0) >= 0)
 		{
 			response = "The economics major, or computer science major may be a good choice in regards to your interests.";
+			emotion++;
 		}
-		else if (findKeyword(statement, "read", 0) >= 0 || findKeyword(statement, "reading", 0) >= 0 || findKeyword(statement, "books", 0) >= 0 || findKeyword(statement, "literature", 0) >= 0)
+		else if (findKeyword(statement, "computers", 0) >= 0 || findKeyword(statement, "computer", 0) >= 0 || 
+				findKeyword(statement, "coding", 0) >= 0 || findKeyword(statement, "programming", 0) >= 0)
+		{
+			response = "The software engineering major may be a good choice in regards to your interests.";
+			emotion++;
+		}
+		else if (findKeyword(statement, "read", 0) >= 0 || findKeyword(statement, "reading", 0) >= 0 || findKeyword(statement, "books", 0) >= 0 || 
+				findKeyword(statement, "literature", 0) >= 0 || findKeyword(statement, "writing", 0) >= 0 || findKeyword(statement, "write", 0) >= 0)
 		{
 			response = "Majors involving the English language or literature may be a good choice in regards to your interests.";
+			emotion++;
 		}
-		else if (findKeyword(statement, "business", 0) >= 0 || findKeyword(statement, "finance", 0) >= 0 || findKeyword(statement, "statistics", 0) >= 0 || findKeyword(statement, "money", 0) >= 0)
+		else if (findKeyword(statement, "business", 0) >= 0 || findKeyword(statement, "finance", 0) >= 0 || findKeyword(statement, "statistics", 0) >= 0 || 
+				findKeyword(statement, "money", 0) >= 0 || findKeyword(statement, "economics", 0) >= 0)
 		{
 			response = "I have a few matches, but please answer this question to allow me to narrow down"
 					+ " the choices. Do you consider yourself a strong leader? Please answer with a yes or no.";
@@ -43,39 +55,33 @@ public class ChatBotChan extends ChatBotBase implements Emotion
 			if(statement.equals("no"))
 			{
 				response = "Economics may be a better suit considering your comforts.";
+				emotion++;
 			}
 			else if (statement.equals("yes"))
 			{
 				response = "I believe the communications and buisness major is good for your traits.";
+				emotion++;
 			}
 			else
 			{
 				response = "Please type a valid answer.";
-				patience++;
+				emotion--;
 			}
 		}
-		else if (findKeyword(statement, "science", 0) >= 0)
+		else if (findKeyword(statement, "biology", 0) >= 0 || findKeyword(statement, "enviorment", 0) >= 0)
 		{
-			response = "What fields of science do you have an interest in?";
-			System.out.println(response);
-			statement = in.nextLine();
-			if(findKeyword(statement, "biology", 0) >= 0 || findKeyword(statement, "enviorment", 0) >= 0)
-			{
-				response = "The biology major is a good choice.";
-			}
-			else if (findKeyword(statement, "chemistry", 0) >= 0)
-			{
-				response = "The chemical engineering major is a good choice. Biochemistry also works too.";
-			}
-			else if (findKeyword(statement, "medicine", 0) >= 0)
-			{
-				response = "The nursing major is a good choice.";
-			}
-			else
-			{
-				response = "I am sorry but your answer is beyond my listed recommendations";
-				
-			}
+			response = "The biological science major is a good choice.";
+			emotion++;
+		}
+		else if (findKeyword(statement, "chemistry", 0) >= 0)
+		{
+			response = "The organic chemistry major is a good choice. The chemical engineering major may be an interesting one too.";
+			emotion++;
+		}		
+		else if (findKeyword(statement, "medicine", 0) >= 0 || findKeyword(statement, "health", 0) >= 0)
+		{
+			response = "The nursing major is a good choice.";
+			emotion++;
 		}
 		else if (findKeyword(statement, "I want to", 0) >= 0)
 		{
@@ -87,7 +93,8 @@ public class ChatBotChan extends ChatBotBase implements Emotion
 		}	
 		else
 		{
-			response = getRandomResponse();
+			getRandomResponse();
+			emotion--;
 		}
 		return response;
 	}
@@ -154,6 +161,6 @@ public class ChatBotChan extends ChatBotBase implements Emotion
 			"I'm not sure if I quite understood that.",
 			"Could you say that again?"
 	};
-	public String [] randomAngryResponses = {"Stop fooling around", "Harumph", "The rage consumes me!"};
-	public String [] randomHappyResponses = {"H A P P Y, what's that spell?", "Today is a good day", "You make me feel like a brand new pair of shoes."};
+	public String [] randomAngryResponses = {"Stop fooling around.", "If you don't wish to cooperate, then I cannot help you.", "Do you even plan on going to college?"};
+	public String [] randomHappyResponses = {"You are suprisingly cooperative, unlike previous users...", "Today is a good day", "You make me feel like a brand new pair of shoes."};
 }
