@@ -43,3 +43,4 @@ gain
 aid
 financial aid
 financialaid
+help
