@@ -31,6 +31,13 @@ public class ChatBotFeng extends ChatBotBase implements Emotion
 
 	public ChatBotFeng() throws IOException {
 		brain.addMemoryType("colleges");
+		brain.addMemoryType("action");
+	}
+	
+	public String getGreeting()
+	{
+		return "Hey! The name's Alex, and I'm here to help you get any information about a particular college.\n"
+				+ "Ask away!";
 	}
 	
 	/**
@@ -46,42 +53,80 @@ public class ChatBotFeng extends ChatBotBase implements Emotion
 	{
 		CollegeParser collegeParser = new CollegeParser(statement);
 		ArrayList<String> colleges = collegeParser.getColleges();
-		brain.addToMemory("colleges", colleges);
+		if (colleges.size() > 0) {
+			brain.addToMemory("colleges", colleges.get(0));
+		}
 		
 		String response = "";
 		
 		if (findKeyword(statement, "what") != -1 ||
-			findKeyword(statement, "whats") != -1) {
+			findKeyword(statement, "whats") != -1 ||
+			findKeyword(statement, "how") != -1 ||
+			findKeyword(statement, "hows") != -1) {
 			// What questions
-			response = parseWhatQuestion(statement, colleges);
+			response = parseWhatHowQuestion(statement, colleges);
 		} else if (findKeyword(statement, "where") != -1 ||
 			findKeyword(statement, "wheres") != -1) {
 			//Where questions
 			response = parseWhereQuestion(statement, colleges);
-		} else if (findKeyword(statement, "how") != -1 ||
-			findKeyword(statement, "hows") != -1) {
-			//Where questions
-			response = parseHowQuestion(statement, colleges); 
-		}else {
+		} else if (findKeyword(statement, "can") != -1) {
+			response = "Can I? Of course I can!";
+		} 	else {
 			response = genericResponse(statement);
 		}
 		
 		return response;
 	}
 	
-	private String parseWhatQuestion(String statement, ArrayList<String> colleges) throws IOException {
+	private String parseWhatHowQuestion(String statement, ArrayList<String> colleges) throws IOException {
 		String response = "";
-		if (colleges.size() > 0) {
+		if (colleges.size() <= 0 && brain.getMemory("colleges").size() > 0) {
+		// if there aren't any colleges in the sentence, get the last college in memory
+			String lastCollege = brain.getLastMemory("colleges");
+			// ArrayList of only the last college
+			colleges = new ArrayList<>();
+			colleges.add(lastCollege);
+		}
+		if (colleges.size() > 0 || brain.getMemory("colleges").size() > 0) {
 			if (userRequestsSATScore(statement)) {
+				brain.addToMemory("action", "what sat");
 				response = getSATResponse(statement, colleges);
-			} else if (userRequestsACTScore(statement)) {
+			} 
+			else if (userRequestsACTScore(statement)) {
+				brain.addToMemory("action", "what act");
 				response = getACTResponse(statement, colleges);
-			} else if (userRequestsAdmissionRate(statement)) {
+			} 
+			else if (userRequestsAdmissionRate(statement)) {
+				brain.addToMemory("action", "what admission rate");
 				response = getAdmissionRateResponse(statement, colleges);
-			} else if (userRequestsCost(statement)) {
+			} 
+			else if (userRequestsCost(statement)) {
+				brain.addToMemory("action", "what tuition");
 				response = getCostResponse(statement, colleges);
-			} else if (userRequestsGPA(statement)) {
+			} 
+			else if (userRequestsGPA(statement)) {
+				brain.addToMemory("action", "what gpa");
 				response = "Sorry that data is currently unavailable";
+			} 
+			else if (userRequestsLocation(statement)) {
+				brain.addToMemory("action", "where is");
+				response = getLocationResponse(statement, colleges);
+			}
+			else if (userQueriesCollege(statement, colleges)) {
+				brain.addToMemory("action", "how is");
+				response = getOpinion(statement, colleges);
+			} 
+			else if (findKeyword(statement, "about") != -1 && 
+					brain.getMemory("action").size() > 0 && 
+					SentenceParser.getWords(statement).size() <= 3 + colleges.get(0).length()) {
+				// if contains the about keyword and there was a previous question asked
+				// for questions like 'What about Yale University?'
+				// places previous question at the start
+				statement = brain.getLastMemory("action") + " " + statement;
+				// retry the parsing
+				return parseWhatHowQuestion(statement, colleges);
+			} else {
+				System.out.println("Sorry, I didn't understand.");
 			}
 		} else {
 			// no colleges found
@@ -92,9 +137,19 @@ public class ChatBotFeng extends ChatBotBase implements Emotion
 	
 	private String parseWhereQuestion(String statement, ArrayList<String> colleges) throws IOException {
 		String response = "";
+		if (colleges.size() <= 0 && brain.getMemory("colleges").size() > 0) {
+			// if there aren't any colleges in the sentence, get the last college in memory
+				String lastCollege = brain.getLastMemory("colleges");
+				// ArrayList of only the last college
+				colleges = new ArrayList<>();
+				colleges.add(lastCollege);
+		}
 		if (colleges.size() > 0) {
 			if (userRequestsLocation(statement)) {
+				brain.addToMemory("action", "where is");
 				response = getLocationResponse(statement, colleges);
+			} else {
+				System.out.println("Sorry, I didn't understand.");
 			}
 		} else {
 			// no colleges found
@@ -103,21 +158,6 @@ public class ChatBotFeng extends ChatBotBase implements Emotion
 		return response;
 	}
 	
-	private String parseHowQuestion(String statement, ArrayList<String> colleges) throws IOException {
-		String response = "";
-		if (colleges.size() > 0) {
-			if (userRequestsCost(statement)) {
-				response = getCostResponse(statement, colleges);
-			} else if (userQueriesCollege(statement, colleges)) {
-				response = getOpinion(statement, colleges);
-			}
-		} 
-		else {
-			// no colleges found
-			response = caseOfCollegeNotRecognized(statement);
-		}
-		return response;
-	}
 	
 	private String caseOfCollegeNotRecognized(String statement) {
 		String response = "";
@@ -129,6 +169,7 @@ public class ChatBotFeng extends ChatBotBase implements Emotion
 		}
 		return response;
 	}
+	
 	private boolean userRequestsAdmissionRate(String statement) {
 		statement = statement.toLowerCase();
 		return findKeyword(statement, "admission") != -1 && findKeyword(statement, "rate") != -1;
@@ -151,7 +192,8 @@ public class ChatBotFeng extends ChatBotBase implements Emotion
 	
 	private boolean userRequestsLocation(String statement) {
 		statement = statement.toLowerCase();
-		return findKeyword(statement, "is") != -1;
+		return findKeyword(statement, "where") != -1 && 
+				findKeyword(statement, "is") != -1 || findKeyword(statement, "location") != -1;
 	}
 	
 	private boolean userRequestsCost(String statement) {
@@ -164,7 +206,7 @@ public class ChatBotFeng extends ChatBotBase implements Emotion
 	
 	private boolean userQueriesCollege(String statement, ArrayList<String> colleges) {
 		statement = statement.toLowerCase();
-		return findKeyword(statement, "is") != -1 && 
+		return findKeyword(statement, "is") != -1 || findKeyword(statement, "about") != -1  && 
 				SentenceParser.getWords(statement).size() <= 3 + colleges.get(0).length();
 	}
 	
