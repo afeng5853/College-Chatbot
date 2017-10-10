@@ -15,18 +15,33 @@ import util.TextFileReader;
  */
 public class ChatBotZhou extends ChatBotBase
 {
+	private static int STATE = 0;
+	private static final int SAT = 1;
+	public String getGreeting()
+	{
+		return "Hello! testing 123";
+	}
 	public String getResponse(String statement) throws FileNotFoundException, IOException
 	{
-		String response = "";
-		
-		CollegeParser test = new CollegeParser(statement);
-		ArrayList<String> colleges = test.getColleges();
-		System.out.println(colleges);
+		String response = statement;
+		if (STATE == SAT)
+		{
+			if (statement.toLowerCase().equals("a"))
+			{
+				response = "Correct!";
+			}
+			else
+			{
+				response = "Not Correct!";
+			}
+		}
+		//if (STATE == )
 		return response;
 	}
 	
 	public String printQuestion(int number, String category) throws FileNotFoundException, IOException
 	{
+		STATE = SAT;
 		TextFileReader text = new TextFileReader("src/sat problems/" + category + ".txt");
 		ArrayList<String> textfile = text.getDict();
 		String response = "";
@@ -37,16 +52,17 @@ public class ChatBotZhou extends ChatBotBase
 			String line = textfile.get(i);
 			if (line.equals("") && isQuestion)
 			{
-				answer = line.charAt(3);
 				return response;
 			}
 			if (isQuestion)
 			{
 				response += line + "\n";
 			}
-			if ((int)line.charAt(0) == line.charAt(0))
+			
+			if (line.length() > 0 && (Integer.parseInt(Character.toString(line.charAt(0))) == number))
 			{
 				isQuestion = true;
+				answer = line.charAt(3);
 			}
 			
 		}
@@ -60,3 +76,11 @@ public class ChatBotZhou extends ChatBotBase
 		return textfile.get(6);
 	}
 }
+/*
+String response = "";
+
+CollegeParser  = new CollegeParser(statement);
+ArrayList<String> colleges = test.getColleges();
+System.out.println(colleges);
+return response;
+*/
