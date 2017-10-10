@@ -34,7 +34,7 @@ public class ChatBotCheung extends ChatBotBase implements Emotion
 			"scholarships",
 			"room and board",
 			"loans",
-			"grants",
+			"grants", 
 			"efc",
 			"src",
 	};
