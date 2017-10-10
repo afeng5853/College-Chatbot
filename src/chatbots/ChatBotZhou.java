@@ -15,7 +15,7 @@ import util.TextFileReader;
  */
 public class ChatBotZhou extends ChatBotBase
 {
-	private static int STATE = 0;
+	private static int STATE = 1;
 	private static final int SAT = 1;
 	public String getGreeting()
 	{
