@@ -72,7 +72,7 @@ public class ChatBotCheung extends ChatBotBase implements Emotion
 		else if (findKeyword(statement, "terms") >= 0 || findKeyword(statement, "define") >= 0) {
 			response = "I can define the following terms: " + Arrays.toString(terms);
 		}		
-		else if (inDictionary(statement.toLowerCase(), finance)){
+		else if (inDictionary(statement.toLowerCase(), finance)){ 
 			response = purpose;
 		}
 		else if (Arrays.asList(terms).contains(statement)){

@@ -42,5 +42,4 @@ balance
 gain
 aid
 financial aid
-financialaid
 help
