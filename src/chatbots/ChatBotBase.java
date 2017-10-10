@@ -49,7 +49,7 @@ public class ChatBotBase implements Emotion
 		
 		else if (findKeyword(statement, "levin") >= 0)
 		{
-			response = "More like LevinTheDream amiright?";
+			response = "Mr. Levin is the best teacher!";
 			emotion++;
 		}
 

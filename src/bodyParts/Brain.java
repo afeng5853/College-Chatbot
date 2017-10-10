@@ -18,4 +18,9 @@ public class Brain {
 	public ArrayList<String> getMemory(String location) {
 		return memory.get(location); 
 	}
+	
+	public String getLastMemory(String location) {
+		ArrayList<String> currentMemory = memory.get(location);
+		return memory.get(location).get(currentMemory.size() - 1); 
+	}
 }

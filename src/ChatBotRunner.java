@@ -23,8 +23,8 @@ public class ChatBotRunner
 	 */
 	public static void main(String[] args) throws FileNotFoundException, IOException
 	{
-		ChatBotCheung chatbot1 = new ChatBotCheung();
-		//ChatBotFeng chatbot1 = new ChatBotFeng();
+		//ChatBotCheung chatbot1 = new ChatBotCheung();
+		ChatBotFeng chatbot1 = new ChatBotFeng();
 		//ChatBotZhou chatbot2 = new ChatBotZhou();
 		//chatbot2.getResponse("My mom went to Princeton University, while my Dad went to Stony Brook");
 		
