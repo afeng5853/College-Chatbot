@@ -3,6 +3,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Scanner;
 
 import bodyParts.Brain;
 import chatbots.ChatBotBase;
@@ -46,7 +47,7 @@ public class ChatBotCheung extends ChatBotBase implements Emotion
 			"Scholarships: There really isn't much difference between a scholarship and a grant, though the general consensus is that scholarships are primarily awarded for academic merit (good grades) or for something you have accomplished (volunteer work or a specific project); however, there are many need-based scholarships out there, as well. Like grants, scholarships don't have to be repaid.\n Visit https://www.fastweb.com/ for scholarship opportunities!",
 			"Room and board: Everyone needs to sleep and eat. If you plan to do it on campus, those fees are part of your total cost of attendance.",
 			"Loans: If scholarships and grants don't cover the entire cost of your tuition, you may have to take out a student loan to make up the difference. Federal student loans don't have to be paid while you're in college, and there are also a variety of loan forgiveness programs out there post-graduation. The rates and terms are generally more flexible than private loans.",
-			"Grants: Did someone say free money? Unlike loans, grantsÂ­Â­Â­Â­â€”which can come from the state or federal government, from the college itself, or from private sourcesâ€”provide money for college that doesn't have to be paid back. We'll take this opportunity here to remind you again to fill out the FAFSA; many grants determine eligibility by looking at your FAFSA results.",
+			"Grants: Did someone say free money? Unlike loans, grants­­­­—which can come from the state or federal government, from the college itself, or from private sources—provide money for college that doesn't have to be paid back. We'll take this opportunity here to remind you again to fill out the FAFSA; many grants determine eligibility by looking at your FAFSA results.",
 			"Expected Family Contribution (EFC): This is the measure of your family's financial strength, and how much of your college costs it should plan to cover. This is calculated based on a specific formula, which considers taxed and untaxed income, assets, and benefits, as well as the size of your family and the number of family members attending college during the year. Your expected family contribution is calculated based on your FAFSA results.",
 			"https://www.usnews.com/education/blogs/the-scholarship-coach/2012/07/19/12-college-financial-aid-terms-defined",
 	};
@@ -58,6 +59,11 @@ public class ChatBotCheung extends ChatBotBase implements Emotion
 		brain.addMemoryType("responses");
 	}
 
+	public String getGreeting()
+	{
+		return "Hi, I am a financial college chatbot." + purpose;
+	}
+	 
 	public String getResponse(String statement) throws FileNotFoundException, IOException
 	{
 		//http://www.collegegold.com/download/efcworksheetindependent.pdf
@@ -67,7 +73,8 @@ public class ChatBotCheung extends ChatBotBase implements Emotion
 			response = "Please type something. I can help you with college finance.";
 		}
 		else if (findKeyword(statement, "calculator") >= 0) {
-			System.out.println("What is your income?");
+			System.out.println(calculateAid() + " is your expected cost!"
+					);
 		}
 		else if (findKeyword(statement, "terms") >= 0 || findKeyword(statement, "define") >= 0) {
 			response = "I can define the following terms: " + Arrays.toString(terms);
@@ -115,11 +122,43 @@ public class ChatBotCheung extends ChatBotBase implements Emotion
 	 * @return 				the estimated financial aid 
 	 */
 	
-	public String calculateEFC (String statement) throws FileNotFoundException, IOException {
-
-		if (findKeyword(statement,"calculator")  >= 0) {
+	public int calculateAid () throws FileNotFoundException, IOException {
+		Scanner in = new Scanner (System.in);
+		int studentIncome = 0;
+		int EFC = 0;
+		int COA = 0;
+		int ASSET = 0;
+		int AGE = 0;
+		int familyCount = 0;
+		int collegeCount = 0;	
+		int parentIncome = 0;
+		int studentAsset = 0;
+		int parentAsset = 0;
+		// Assumes unmarried
+		System.out.println("What is your age?");
+		AGE = Integer.parseInt(in.nextLine());	
+		System.out.println("How many people live in your household?");
+		familyCount = Integer.parseInt(in.nextLine());
+		System.out.println("How many people in your household are in college?");
+		collegeCount = Integer.parseInt(in.nextLine());
+		System.out.println("A college's cost of attendance (COA) is the total direct and indirect costs of a year of college. What is your COA?");
+		COA = Integer.parseInt(in.nextLine());
 			System.out.println("What is your income?");
+			studentIncome = Integer.parseInt(in.nextLine());
+			System.out.println("What is your parent's income?");
+			parentIncome = Integer.parseInt(in.nextLine());
+			System.out.println("What is your assets?");
+			studentAsset = Integer.parseInt(in.nextLine());
+			studentAsset = (int) ((studentAsset*.5)/2.3);
+			System.out.println("What is your parent's assets?");
+			parentAsset = Integer.parseInt(in.nextLine());
+		if (studentIncome < 20000) {
+			EFC = 0;
 		}
-	return response;
+		if (studentIncome < 50000) {
+			ASSET = 0;
+		}
+		EFC = (int) ((parentAsset + studentAsset + studentIncome + parentIncome)*.47/collegeCount);
+	return COA - EFC;
 	}
 }
