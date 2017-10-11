@@ -10,7 +10,9 @@ import chatbots.ChatBotBase;
 import chatbots.Emotion;
 import grammar.FinanceDictionary;
 import grammar.GreetingsDictionary;
-import grammar.SentenceParser;;
+import grammar.SentenceParser;
+import java.util.InputMismatchException;
+
 
 /**
  * A chatbot that helps you with college finance. 
@@ -47,6 +49,27 @@ public class ChatBotCheung extends ChatBotBase implements Emotion
 			"efc",
 			"src",
 	};
+	
+	public String [] calculationVariables = {"age",
+			"familyCount",
+			"collegeCount",
+			"reimbursement",
+			"coa",
+			"studentIncome",
+			"parentIncome",
+			"studentAsset",
+			"parentAsset", 
+	};
+	
+	public String [] calculationsQuestions = {"What is your age?",
+			"How many people live in your household?",
+			"How many people in your household are in college?",
+			"A college's cost of attendance (COA) is the total direct and indirect costs of a year of college. What is the COA of the college of your interest? + /n + If you don't know the COA of your college, I can ask Chatbot Feng for the information!",
+			"What is your income?",
+			"What is your parent's income?",
+			"What is the value of your assets?",
+			"What is the value of your parent's assets?",
+	};
 	public String [] termsDefined = {"FAFSA (Free Application for Federal Student Aid): You've probably heard of the FAFSA, but do you know what it is and just how important it can be for you and your family? Filling out the FAFSA is one of the first steps in the financial aid process, and determines the amount that you or your family will be contributing to your postsecondary education. The results of the FAFSA determine student grants, work-study, and loan amounts. We recommend that everyone fills out the FAFSA; it only takes about an hour to complete, and you may be surprised with the results.",
 			"The CSS/Financial Aid PROFILE (often written as CSS PROFILE), short for the College Scholarship Service PROFILE, is an application distributed by the College Board in the United States allowing college students to apply for financial aid. ... Each CSS PROFILE costs a fee, varying from year to year.",
 			"Work-study/work award: The Federal Work Study program provides funds to eligible students (see FAFSA above) for part-time employment to help finance the costs of postsecondary education. In most cases, the school or employer has to pay up to 50 percent of the student's wages, with the federal government covering the rest. You could be employed by the college itself; or by a federal, state, or local public agency; a private nonprofit organization; or a private for-profit organization.",
@@ -73,14 +96,13 @@ public class ChatBotCheung extends ChatBotBase implements Emotion
 	}
 	
 	/**
-	 * Constructs the response of the chatbot, which depends on the user's response.
+	 * Constructs the response of the chatbot which depends on the user's response.
 	 * @param 	statement 	the response of the user
 	 * @return 				the chatbot's response
 	 */
 	 
 	public String getResponse(String statement) throws FileNotFoundException, IOException
 	{
-		//http://www.collegegold.com/download/efcworksheetindependent.pdf
 		FinanceDictionary finance = new FinanceDictionary();
 		GreetingsDictionary greetingsDict = new GreetingsDictionary();
 		if (greetingsDict.contains(statement.toLowerCase())) {
@@ -98,11 +120,10 @@ public class ChatBotCheung extends ChatBotBase implements Emotion
 		else if (findKeyword(statement, "calculator") >= 0) {
 			response = "You will receive $" + calculateAid() + " in aid!";
 		}
-		// Connect to alex chatbot college name ^
 		else if (findKeyword(statement, "terms") >= 0 || findKeyword(statement, "define") >= 0) {
 			response = "I can define the following terms: " + Arrays.toString(terms);
 		}		
-		else if (inDictionary(statement.toLowerCase(), finance)){ 
+		else if (inDictionary(statement, finance)){ 
 			response = purpose;
 		}
 		else {
@@ -130,7 +151,7 @@ public class ChatBotCheung extends ChatBotBase implements Emotion
 	 */
 	
 	public boolean inDictionary (String statement, FinanceDictionary dict) throws FileNotFoundException, IOException {
-		ArrayList<String> wordList = SentenceParser.getWords(statement);
+		ArrayList<String> wordList = SentenceParser.getWords(statement.toLowerCase());
 		for (String word : wordList) {
 			if (dict.contains(word)) {
 				return true;
@@ -158,16 +179,16 @@ public class ChatBotCheung extends ChatBotBase implements Emotion
 		int parentIncome = 0;
 		int studentAsset = 0;
 		int parentAsset = 0;
-		
-		// Assumes user is unmarried
-		System.out.println("What is your age?");
-		age = Integer.parseInt(in.nextLine());	
-		System.out.println("How many people live in your household?");
-		familyCount = Integer.parseInt(in.nextLine());
-		System.out.println("How many people in your household are in college?");
-		collegeCount = Integer.parseInt(in.nextLine());
-		System.out.println("A college's cost of attendance (COA) is the total direct and indirect costs of a year of college. What is the COA of the college of your interest?");
-		System.out.println("If you don't know the COA of your college, I can ask Chatbot Feng for the information!");
+		for (String r: calculationVariables) {
+		for (String s: calculationsQuestions){
+			int r = inputString(s);
+		}
+		}
+	age = inputString("What is your age?");
+	System.out.println(age);
+
+	//familyCount = Integer.parseInt(in.nextLine());
+		//collegeCount = Integer.parseInt(in.nextLine());
 		ChatBotFeng feng = new ChatBotFeng();
 		String temp = feng.getResponse(in.nextLine());
 		System.out.println(temp);
@@ -176,14 +197,12 @@ public class ChatBotCheung extends ChatBotBase implements Emotion
 		result = result.substring(1,result.length() -1);
 		System.out.println(result);
 		coa = Integer.parseInt(result);
-		System.out.println("What is your income?");
+		//
+		
 		studentIncome = Integer.parseInt(in.nextLine());
-		System.out.println("What is your parent's income?");
 		parentIncome = Integer.parseInt(in.nextLine());
-		System.out.println("What is the value of your assets?");
 		studentAsset = Integer.parseInt(in.nextLine());
 		studentAsset = (int) ((studentAsset*.5)/2.3);
-		System.out.println("What is the value of your parent's assets?");
 		parentAsset = Integer.parseInt(in.nextLine());
 		if (studentIncome < 20000) {
 			efc = 0;
@@ -194,4 +213,17 @@ public class ChatBotCheung extends ChatBotBase implements Emotion
 		efc = (int) (((parentAsset + studentAsset + studentIncome + parentIncome)*.47)/collegeCount);
 		return coa - efc;
 	}
-}
+	
+	public int inputString (String question) throws FileNotFoundException, IOException {
+		Scanner in = new Scanner (System.in);
+		while (true) {
+			try {
+			System.out.println(question);
+			return Integer.parseInt(in.nextLine());	
+			}
+			catch(NumberFormatException ex) {
+				System.out.println("Please enter an integer");
+			}
+		}
+	}
+	}
