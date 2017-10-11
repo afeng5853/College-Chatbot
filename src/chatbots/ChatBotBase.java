@@ -242,7 +242,7 @@ public class ChatBotBase implements Emotion
 			"Do you really think so?",
 			"You don't say.",
 			"It's all boolean to me.",
-			"So, would you like to go for a walk?",
+			"Colleges are fun!",
 			"Could you say that again?"
 	};
 	public String [] randomAngryResponses = {"Bahumbug.", "Harumph", "The rage consumes me!"};

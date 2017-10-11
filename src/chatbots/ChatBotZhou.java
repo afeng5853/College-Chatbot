@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import colleges.CollegeParser;
+import grammar.GreetingsDictionary;
 import util.TextFileReader;
 
 /**
@@ -24,7 +25,11 @@ public class ChatBotZhou extends ChatBotBase
 	public String getResponse(String statement) throws FileNotFoundException, IOException
 	{
 		String response = statement;
-		if (STATE == SAT)
+		GreetingsDictionary greetingsDict = new GreetingsDictionary();
+		if (greetingsDict.contains(statement.toLowerCase())) {
+			response = "Nice to meet you!";
+		}
+		else if (STATE == SAT)
 		{
 			if (statement.toLowerCase().equals("a"))
 			{

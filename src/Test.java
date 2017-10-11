@@ -8,11 +8,11 @@ import colleges.CollegeParser;
 public class Test {
 
 	public static void main(String[] args) throws FileNotFoundException, IOException {
-		SentenceParser test = new SentenceParser("What do you think about Stony Brook?");
+		SentenceParser test = new SentenceParser("The quick brown fox jumped over the lazy dog");
 		Dictionary dict = new Dictionary();
 		CollegeParser collegeParser = new CollegeParser("i want to go to COLLEGE OF THE OZARKS");
-		System.out.println(collegeParser.getColleges());
-		//System.out.println(test.getPartsOfSpeech());
+		//System.out.println(collegeParser.getColleges());
+		System.out.println(test.getPartsOfSpeech());
 		//System.out.println(test.getWord(13));
 	}
 

@@ -8,6 +8,7 @@ import chatbots.ChatBotChan;
 import chatbots.ChatBotCheung;
 import chatbots.ChatBotFeng;
 import chatbots.ChatBotZhou;
+import grammar.SalutationsDictionary;
 
 /**
  * A simple class to run our chatbot teams.
@@ -73,7 +74,8 @@ public class ChatBotRunner
 		// Responses
 		}
 		String statement = in.nextLine();
-		while (!statement.equals("Bye"))
+		SalutationsDictionary saluDict = new SalutationsDictionary();
+		while (!saluDict.contains(statement.toLowerCase()))
 		{
 			switch (choice) {
 				case 1:
@@ -96,6 +98,7 @@ public class ChatBotRunner
 			
 			statement = in.nextLine();
 		}
+		System.out.println("Bye!");
 		in.close();
 	}
 

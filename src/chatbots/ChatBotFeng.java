@@ -3,6 +3,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import colleges.CollegeParser;
+import grammar.GreetingsDictionary;
 import grammar.SentenceParser;
 import bodyParts.Brain;
 /*
@@ -58,8 +59,11 @@ public class ChatBotFeng extends ChatBotBase implements Emotion
 		}
 		
 		String response = "";
-		
-		if (findKeyword(statement, "what") != -1 ||
+		GreetingsDictionary greetingsDict = new GreetingsDictionary();
+		if (greetingsDict.contains(statement.toLowerCase())) {
+			response = "Nice to meet you!";
+		}
+		else if (findKeyword(statement, "what") != -1 ||
 			findKeyword(statement, "whats") != -1 ||
 			findKeyword(statement, "how") != -1 ||
 			findKeyword(statement, "hows") != -1) {

@@ -9,6 +9,7 @@ import bodyParts.Brain;
 import chatbots.ChatBotBase;
 import chatbots.Emotion;
 import grammar.FinanceDictionary;
+import grammar.GreetingsDictionary;
 import grammar.SentenceParser;;
 
 /**
@@ -19,6 +20,13 @@ import grammar.SentenceParser;;
  * This version:
  * @author Raymond Cheung
  * @version September 2017
+ */
+
+/* ToDo:
+ * Improve calculator
+ * Add emotion
+ * Link to other chatbots to carry over info
+ * Comment
  */
 
 public class ChatBotCheung extends ChatBotBase implements Emotion
@@ -47,7 +55,7 @@ public class ChatBotCheung extends ChatBotBase implements Emotion
 			"Scholarships: There really isn't much difference between a scholarship and a grant, though the general consensus is that scholarships are primarily awarded for academic merit (good grades) or for something you have accomplished (volunteer work or a specific project); however, there are many need-based scholarships out there, as well. Like grants, scholarships don't have to be repaid.\n Visit https://www.fastweb.com/ for scholarship opportunities!",
 			"Room and board: Everyone needs to sleep and eat. If you plan to do it on campus, those fees are part of your total cost of attendance.",
 			"Loans: If scholarships and grants don't cover the entire cost of your tuition, you may have to take out a student loan to make up the difference. Federal student loans don't have to be paid while you're in college, and there are also a variety of loan forgiveness programs out there post-graduation. The rates and terms are generally more flexible than private loans.",
-			"Grants: Did someone say free money? Unlike loans, grants­­­­—which can come from the state or federal government, from the college itself, or from private sources—provide money for college that doesn't have to be paid back. We'll take this opportunity here to remind you again to fill out the FAFSA; many grants determine eligibility by looking at your FAFSA results.",
+			"Grants: Did someone say free money? Unlike loans, grantsï¿½ï¿½ï¿½ï¿½ï¿½which can come from the state or federal government, from the college itself, or from private sourcesï¿½provide money for college that doesn't have to be paid back. We'll take this opportunity here to remind you again to fill out the FAFSA; many grants determine eligibility by looking at your FAFSA results.",
 			"Expected Family Contribution (EFC): This is the measure of your family's financial strength, and how much of your college costs it should plan to cover. This is calculated based on a specific formula, which considers taxed and untaxed income, assets, and benefits, as well as the size of your family and the number of family members attending college during the year. Your expected family contribution is calculated based on your FAFSA results.",
 			"https://www.usnews.com/education/blogs/the-scholarship-coach/2012/07/19/12-college-financial-aid-terms-defined",
 	};
@@ -63,36 +71,53 @@ public class ChatBotCheung extends ChatBotBase implements Emotion
 	{
 		return "Hi, I am a financial college chatbot." + purpose;
 	}
+	
+	/**
+	 * Constructs the response of the chatbot, which depends on the user's response.
+	 * @param 	statement 	the response of the user
+	 * @return 				the chatbot's response
+	 */
 	 
 	public String getResponse(String statement) throws FileNotFoundException, IOException
 	{
 		//http://www.collegegold.com/download/efcworksheetindependent.pdf
 		FinanceDictionary finance = new FinanceDictionary();
-		if (statement.length() == 0)
+		GreetingsDictionary greetingsDict = new GreetingsDictionary();
+		if (greetingsDict.contains(statement.toLowerCase())) {
+			response = "Nice to meet you!";
+		}
+		else if (statement.length() == 0)
 		{
 			response = "Please type something. I can help you with college finance.";
 		}
+		//else if (findKeyword(statement, "tuition") >= 0) {
+		//	System.out.println("Chatbot Feng knows that information, let me just ask him!");
+		//	ChatBotFeng feng = new ChatBotFeng();
+		//	response = "Feng: " + feng.getResponse(statement);
+		//}
 		else if (findKeyword(statement, "calculator") >= 0) {
-			response = calculateAid() + " is your expected cost!";
+			response = "You will receive $" + calculateAid() + " in aid!";
 		}
+		// Connect to alex chatbot college name ^
 		else if (findKeyword(statement, "terms") >= 0 || findKeyword(statement, "define") >= 0) {
 			response = "I can define the following terms: " + Arrays.toString(terms);
 		}		
 		else if (inDictionary(statement.toLowerCase(), finance)){ 
 			response = purpose;
 		}
-		else if (Arrays.asList(terms).contains(statement)){
-			response =  termsDefined [Arrays.asList(terms).indexOf(statement)];
-		}
 		else {
-			response = "Invalid entry";
+			response = genericResponse(statement);
 		}
 		brain.addToMemory("responses", response);
 		ArrayList<String> responses = brain.getMemory("responses");
 		String lastResponse = responses.get(responses.size()-1);
-		//System.out.println(lastResponse + "test");
 		if (lastResponse.equals(purpose) ) {
 			response = "Would you like me to estimate your financial need OR define confusing terms?";
+		}
+		for (int i = 0; i < terms.length; i++) {
+			if (findKeyword(statement, terms[i])  >= 0) {
+				response = termsDefined [Arrays.asList(terms).indexOf(terms[i])];
+			}
 		}
 		return response;	
 	}
@@ -123,41 +148,50 @@ public class ChatBotCheung extends ChatBotBase implements Emotion
 	
 	public int calculateAid () throws FileNotFoundException, IOException {
 		Scanner in = new Scanner (System.in);
+		// variables used to calculate need-based aid
 		int studentIncome = 0;
-		int EFC = 0;
-		int COA = 0;
-		int ASSET = 0;
-		int AGE = 0;
+		int efc = 0;
+		int coa = 0;
+		int age = 0;
 		int familyCount = 0;
 		int collegeCount = 0;	
 		int parentIncome = 0;
 		int studentAsset = 0;
 		int parentAsset = 0;
-		// Assumes unmarried
+		
+		// Assumes user is unmarried
 		System.out.println("What is your age?");
-		AGE = Integer.parseInt(in.nextLine());	
+		age = Integer.parseInt(in.nextLine());	
 		System.out.println("How many people live in your household?");
 		familyCount = Integer.parseInt(in.nextLine());
 		System.out.println("How many people in your household are in college?");
 		collegeCount = Integer.parseInt(in.nextLine());
-		System.out.println("A college's cost of attendance (COA) is the total direct and indirect costs of a year of college. What is your COA?");
-		COA = Integer.parseInt(in.nextLine());
-			System.out.println("What is your income?");
-			studentIncome = Integer.parseInt(in.nextLine());
-			System.out.println("What is your parent's income?");
-			parentIncome = Integer.parseInt(in.nextLine());
-			System.out.println("What is your assets?");
-			studentAsset = Integer.parseInt(in.nextLine());
-			studentAsset = (int) ((studentAsset*.5)/2.3);
-			System.out.println("What is your parent's assets?");
-			parentAsset = Integer.parseInt(in.nextLine());
+		System.out.println("A college's cost of attendance (COA) is the total direct and indirect costs of a year of college. What is the COA of the college of your interest?");
+		System.out.println("If you don't know the COA of your college, I can ask Chatbot Feng for the information!");
+		ChatBotFeng feng = new ChatBotFeng();
+		String temp = feng.getResponse(in.nextLine());
+		System.out.println(temp);
+		String[] tempArray = temp.split(" ");
+		String result = tempArray[tempArray.length - 1];
+		result = result.substring(1,result.length() -1);
+		System.out.println(result);
+		coa = Integer.parseInt(result);
+		System.out.println("What is your income?");
+		studentIncome = Integer.parseInt(in.nextLine());
+		System.out.println("What is your parent's income?");
+		parentIncome = Integer.parseInt(in.nextLine());
+		System.out.println("What is the value of your assets?");
+		studentAsset = Integer.parseInt(in.nextLine());
+		studentAsset = (int) ((studentAsset*.5)/2.3);
+		System.out.println("What is the value of your parent's assets?");
+		parentAsset = Integer.parseInt(in.nextLine());
 		if (studentIncome < 20000) {
-			EFC = 0;
+			efc = 0;
 		}
 		if (studentIncome < 50000) {
-			ASSET = 0;
+			studentAsset = 0;	
 		}
-		EFC = (int) ((parentAsset + studentAsset + studentIncome + parentIncome)*.47/collegeCount);
-	return COA - EFC;
+		efc = (int) (((parentAsset + studentAsset + studentIncome + parentIncome)*.47)/collegeCount);
+		return coa - efc;
 	}
 }

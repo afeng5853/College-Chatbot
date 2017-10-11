@@ -1,6 +1,10 @@
 package chatbots;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Random;
 import java.util.Scanner;
+
+import grammar.GreetingsDictionary;
 
 /**
  * A program to carry on conversations with a human user. Used to recommend majors based on interests.
@@ -20,13 +24,17 @@ public class ChatBotChan extends ChatBotBase implements Emotion
 	{
 		return "Greetings, User. Please enter an interest you have.";
 	}
-	public String getResponse(String statement)
+	public String getResponse(String statement) throws FileNotFoundException, IOException
 	{
 		String response = "";
+		GreetingsDictionary greetingsDict = new GreetingsDictionary();
 		if (statement.length() == 0)
 		{
 			response = "If you do not respond with an interest, I cannot give you a suggestion";
 			emotion++;
+		}
+		else if (greetingsDict.contains(statement.toLowerCase())) {
+			response = "Nice to meet you!";
 		}
 		else if (findKeyword(statement, "math", 0) >= 0 || findKeyword(statement, "mathematics", 0) >= 0)
 		{
