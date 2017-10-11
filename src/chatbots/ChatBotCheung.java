@@ -183,7 +183,7 @@ public class ChatBotCheung extends ChatBotBase implements Emotion
 		for (String s: calculationsQuestions){
 			int r = inputString(s);
 		}
-		}
+		} 
 	age = inputString("What is your age?");
 	System.out.println(age);
 
