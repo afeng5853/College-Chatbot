@@ -65,7 +65,7 @@ public class ChatBotRunner
 				break;
 			case 3:
 			// Feng
-				System.out.println (chatbot3.getGreeting());
+				System.out.println(chatbot3.getGreeting());
 				break;
 			case 4:
 			// Zhou
@@ -88,7 +88,12 @@ public class ChatBotRunner
 					break;
 				case 3:
 				// Feng
-					System.out.println (chatbot3.getResponse(statement));
+					String fengResponse = chatbot3.getResponse(statement);
+					if (fengResponse.equals("CALLZHOU")) {
+						choice = 4;
+					} else {
+						System.out.println(fengResponse);
+					}
 					break;
 				case 4:
 				// Zhou

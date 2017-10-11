@@ -3,6 +3,7 @@ hey
 hello
 sup
 what's up
+whats up
 greetings
 good morning
 good afternoon

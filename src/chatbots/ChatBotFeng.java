@@ -2,6 +2,8 @@ package chatbots;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Scanner;
+
 import colleges.CollegeParser;
 import grammar.GreetingsDictionary;
 import grammar.SentenceParser;
@@ -75,8 +77,10 @@ public class ChatBotFeng extends ChatBotBase implements Emotion
 			response = parseWhereQuestion(statement, colleges);
 		} else if (findKeyword(statement, "can") != -1) {
 			response = "Can I? Of course I can!";
-		} 	else {
-			response = genericResponse(statement);
+		} else if (findKeyword(statement, "should") != -1) {
+			response = parseShouldQuestion(statement, colleges);
+		} else {
+			genericResponse(statement);
 		}
 		
 		return response;
@@ -162,6 +166,28 @@ public class ChatBotFeng extends ChatBotBase implements Emotion
 		return response;
 	}
 	
+	private String parseShouldQuestion(String statement, ArrayList<String> colleges) throws IOException {
+		String response = "";
+		if (colleges.size() <= 0 && brain.getMemory("colleges").size() > 0) {
+			// if there aren't any colleges in the sentence, get the last college in memory
+				String lastCollege = brain.getLastMemory("colleges");
+				// ArrayList of only the last college
+				colleges = new ArrayList<>();
+				colleges.add(lastCollege);
+		}
+		if (colleges.size() > 0) {
+			if (userRequestsShouldGo(statement)) {
+				brain.addToMemory("action", "where is");
+				response = getShouldGoResponse(statement, colleges);
+			} else {
+				System.out.println("Sorry, I didn't understand.");
+			}
+		} else {
+			// no colleges found
+			response = caseOfCollegeNotRecognized(statement);
+		}
+		return response;
+	}
 	
 	private String caseOfCollegeNotRecognized(String statement) {
 		String response = "";
@@ -206,6 +232,11 @@ public class ChatBotFeng extends ChatBotBase implements Emotion
 				findKeyword(statement, "is") != -1) ||
 				findKeyword(statement, "tuition") != -1 ||
 				findKeyword(statement, "cost") != -1;
+	}
+	
+	private boolean userRequestsShouldGo(String statement) {
+		statement = statement.toLowerCase();
+		return findKeyword(statement, "go") != -1;
 	}
 	
 	private boolean userQueriesCollege(String statement, ArrayList<String> colleges) {
@@ -336,6 +367,54 @@ public class ChatBotFeng extends ChatBotBase implements Emotion
 				return "The four year cost of " + college + " is $" + cost  + ".";
 			}
 		}
+		return "Huh?"; // This should never happen
+	}
+	
+	private String getShouldGoResponse(String statement, ArrayList<String> colleges) throws IOException {
+		// only 1 college!
+		if (colleges.size() > 1) {
+			// emotion ?
+			return "One college at a time please!";
+		}
+		Scanner input = new Scanner(System.in);
+		// will work on multiple colleges later
+		for (String college : colleges) {
+			System.out.println("What is your SAT score out of 1600?");
+			String response = input.nextLine();
+			// If the person says he didn't take the SAT yet
+			if (findKeyword(response, "didnt") != -1 || findKeyword(response, "didn't") != -1) {
+				System.out.println("That's okay, if you want to take a mock SAT exam, you can ask Chatbot Zhou!\n"
+									+ "Would you like to take one?");
+				response = input.nextLine();
+				// Yes or no response to take SAT from person
+				if (findKeyword(response, "yes") != -1 || findKeyword(response, "would like to") != -1) {
+					input.close();
+					return "CALLZHOU";
+				} else if (findKeyword(response, "no") != -1) {
+					input.close();
+					return "Okay.";
+				} else {
+					input.close();
+					return "Huh?";
+				}
+			} else {
+				while (true) {
+					try {
+						int score = Integer.parseInt(response);
+						int collegeSATScore = Integer.parseInt(getAvgSATScore(college));
+						if (Math.abs(collegeSATScore - score) < 100 || score > collegeSATScore) {
+							return "You have a chance to get in!";
+						} else {
+							return "Don't even try!";
+						}
+					} catch (NumberFormatException e) {
+						System.out.println("Please enter a valid number.");
+						response = input.nextLine();
+					}
+				}
+			}
+		}
+		input.close();
 		return "Huh?"; // This should never happen
 	}
 	
