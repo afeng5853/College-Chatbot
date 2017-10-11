@@ -18,6 +18,7 @@ public class ChatBotZhou extends ChatBotBase
 {
 	private static int STATE = 1;
 	private static final int SAT = 1;
+	int testNum = 1;
 	public String getGreeting()
 	{
 		return "Hello! testing 123";
@@ -29,18 +30,15 @@ public class ChatBotZhou extends ChatBotBase
 		if (greetingsDict.contains(statement.toLowerCase())) {
 			response = "Nice to meet you!";
 		}
+		
 		else if (STATE == SAT)
 		{
-			if (statement.toLowerCase().equals("a"))
+			while (STATE == SAT)
 			{
-				response = "Correct!";
-			}
-			else
-			{
-				response = "Not Correct!";
+				printQuestion(testNum, "grammar");
+				testNum++;
 			}
 		}
-		//if (STATE == )
 		return response;
 	}
 	
@@ -63,8 +61,9 @@ public class ChatBotZhou extends ChatBotBase
 			{
 				response += line + "\n";
 			}
-			
-			if (line.length() > 0 && (Integer.parseInt(Character.toString(line.charAt(0))) == number))
+			System.out.println(Integer.parseInt(Character.toString(line.charAt(0))) == number);
+			//Second part of condition is still broken
+			if (line.length() > 0 && ((line.charAt(0)) == number)
 			{
 				isQuestion = true;
 				answer = line.charAt(3);
