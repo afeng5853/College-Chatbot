@@ -23,7 +23,7 @@ import answers.answers;
  * replace answer arrays with hashmaps possibly
  * fix initialized variables
  */
-public class ChatBotZhou extends ChatBotBase
+public class ChatBotZhou extends ChatBotLevin
 {
 	private static String SECTION = "none";
 	private static boolean SAT = false; //Variable that tracks if testing is in progress

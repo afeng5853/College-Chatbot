@@ -14,6 +14,13 @@ import java.util.HashMap;
 
 /**
  * Sentence-related parsing
+ * CURRENT UNUSED
+ * CURRENT UNUSED
+ * CURRENT UNUSED
+ * CURRENT UNUSED
+ * CURRENT UNUSED
+ * CURRENT UNUSED
+ * CURRENT UNUSED
  * This version:
  * @author Alex Feng
  * @version October 2017
@@ -128,7 +135,7 @@ public class SentenceParser {
 		}
 		return -1;
 	}
-	
+	/*
 	public final ArrayList<Integer> getModifiers(int idx) {
 		ArrayList<Integer> modifiers = new ArrayList<>();
 		
@@ -153,7 +160,7 @@ public class SentenceParser {
 		}
 		
 		return modifiers;
-	}
+	}*/
 	
 	public static ArrayList<String> getWords(String sentence) {
 		StringBuilder currentWord = new StringBuilder();

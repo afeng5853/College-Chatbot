@@ -378,6 +378,12 @@ public class ChatBotFeng extends ChatBotLevin
 				SentenceParser.getWords(statement).size() <= 3 + colleges.get(0).length();
 	}
 	
+	/**
+	 * Returns a response based on SAT college scores
+	 * @param statement the user statement
+	 * @param colleges the list of colleges in the statement
+	 * @return Returns a response based on SAT college scores
+	 */
 	private String getSATResponse(String statement, ArrayList<String> colleges) throws IOException {
 		// only 1 college!
 		if (colleges.size() > 1) {
@@ -395,6 +401,11 @@ public class ChatBotFeng extends ChatBotLevin
 		return "Huh?"; // This should never happen
 	}
 	
+	/**
+	 * Get sat score of a college
+	 * @param college the college in the statement
+	 * @return Returns the sat score as a String
+	 */
 	private String getAvgSATScore(String college) throws IOException {
 		String satScoreStr = CollegeParser.getCollegeData(college, SAT);
 		if (satScoreStr == null) {
@@ -404,6 +415,12 @@ public class ChatBotFeng extends ChatBotLevin
 		}
 	}
 	
+	/**
+	 * Returns a response based on ACT college scores
+	 * @param statement the user statement
+	 * @param colleges the list of colleges in the statement
+	 * @return Returns a response based on ACT college scores
+	 */
 	private String getACTResponse(String statement, ArrayList<String> colleges) throws IOException {
 		// only 1 college!
 		if (colleges.size() > 1) {
@@ -421,6 +438,11 @@ public class ChatBotFeng extends ChatBotLevin
 		return "Huh?"; // This should never happen
 	}
 	
+	/**
+	 * Get ACT score of a college
+	 * @param college the college in the statement
+	 * @return Returns the ACT score as a String
+	 */
 	private String getAvgACTScore(String college) throws IOException {
 		String satScoreStr = CollegeParser.getCollegeData(college, ACT);
 		if (satScoreStr == null) {
@@ -430,6 +452,12 @@ public class ChatBotFeng extends ChatBotLevin
 		}
 	}
 	
+	/**
+	 * Returns a response based on college admission rates
+	 * @param statement the user statement
+	 * @param colleges the list of colleges in the statement
+	 * @return Returns a response based on college admission rates
+	 */
 	private String getAdmissionRateResponse(String statement, ArrayList<String> colleges) throws IOException {
 		// only 1 college!
 		if (colleges.size() > 1) {
@@ -447,6 +475,11 @@ public class ChatBotFeng extends ChatBotLevin
 		return "Huh?"; // This should never happen
 	}
 	
+	/**
+	 * Get the admission rate score of a college
+	 * @param college the college in the statement
+	 * @return Returns a double of the admission rate
+	 */
 	private double getAdmissionRate(String college) throws IOException {
 		String admissionRateStr = CollegeParser.getCollegeData(college, ADMISSION_RATE);
 		if (admissionRateStr == null) {
@@ -456,6 +489,12 @@ public class ChatBotFeng extends ChatBotLevin
 		}
 	}
 	
+	/**
+	 * Returns a response based on the college's location
+	 * @param statement the user statement
+	 * @param colleges the list of colleges in the statement
+	 * @return Returns a response based on the college's location
+	 */
 	private String getLocationResponse(String statement, ArrayList<String> colleges) throws IOException {
 		// only 1 college!
 		if (colleges.size() > 1) {
@@ -474,6 +513,11 @@ public class ChatBotFeng extends ChatBotLevin
 		return "Huh?"; // This should never happen
 	}
 	
+	/**
+	 * Gets the location of a college
+	 * @param college the college in the statement
+	 * @return Returns a string of the location of the college
+	 */
 	private String getLocation(String college) throws IOException {
 		String city = CollegeParser.getCollegeData(college, CITY);
 		String state = CollegeParser.getCollegeData(college, STATE);
@@ -485,6 +529,12 @@ public class ChatBotFeng extends ChatBotLevin
 		}
 	}
 	
+	/**
+	 * Returns a response based on the college's cost
+	 * @param statement the user statement
+	 * @param colleges the list of colleges in the statement
+	 * @return Returns a response based on the college's cost
+	 */
 	private String getCostResponse(String statement, ArrayList<String> colleges) throws IOException {
 		// only 1 college!
 		if (colleges.size() > 1) {
@@ -503,6 +553,12 @@ public class ChatBotFeng extends ChatBotLevin
 		return "Huh?"; // This should never happen
 	}
 	
+	/**
+	 * Returns a response based on the rules of a should go statement
+	 * @param statement the user statement
+	 * @param colleges the list of colleges in the statement
+	 * @return Returns a response based on the rules of a should go statement
+	 */
 	private String getShouldGoResponse(String statement, ArrayList<String> colleges) throws IOException {
 		// only 1 college!
 		if (colleges.size() > 1) {
@@ -566,6 +622,11 @@ public class ChatBotFeng extends ChatBotLevin
 		return "Huh?"; // This should never happen
 	}
 	
+	/**
+	 * Gets the cost of a college
+	 * @param college the college in the statement
+	 * @return Returns a string of the cost of the college
+	 */
 	private String getCost(String college) throws IOException {
 		String cost = CollegeParser.getCollegeData(college, FOUR_YEAR_COST);
 		if (cost == null) {
@@ -575,6 +636,12 @@ public class ChatBotFeng extends ChatBotLevin
 		}
 	}
 	
+	/**
+	 * Gets the opinion of a college based on it's SAT score
+	 * @param statement the user statement
+	 * @param colleges the list of colleges in the statement
+	 * @return Returns the opinion of a college based on it's SAT score
+	 */
 	private String getOpinion(String statement, ArrayList<String> colleges) throws IOException {
 		// only 1 college!
 		if (colleges.size() > 1) {
