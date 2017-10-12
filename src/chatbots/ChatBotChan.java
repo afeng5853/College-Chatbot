@@ -115,7 +115,7 @@ public class ChatBotChan extends ChatBotLevin
 		}	
 		else
 		{
-			getRandomResponse();
+			response = getRandomResponse();
 			emotion--;
 		}
 		return response;
