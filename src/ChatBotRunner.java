@@ -89,8 +89,15 @@ public class ChatBotRunner
 				case 3:
 				// Feng
 					String fengResponse = chatbot3.getResponse(statement);
-					if (fengResponse.equals("CALLZHOU")) {
+					if (fengResponse.equals("~CALLZHOU")) {
 						choice = 4;
+						System.out.println("Zhou " + chatbot4.getGreeting());
+					} else if (fengResponse.equals("~CALLCHAN")) {
+						choice = 1;
+						System.out.println("Chan: " + chatbot1.getGreeting());
+					} else if (fengResponse.equals("~CALLCHEUNG")) {
+						choice = 2;
+						System.out.println("Cheung: " + chatbot2.getGreeting());
 					} else {
 						System.out.println(fengResponse);
 					}
@@ -100,7 +107,6 @@ public class ChatBotRunner
 					System.out.println (chatbot4.getResponse(statement));
 					break;
 			}
-			
 			statement = in.nextLine();
 		}
 		System.out.println("Bye!");

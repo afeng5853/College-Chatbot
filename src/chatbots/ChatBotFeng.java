@@ -35,8 +35,13 @@ public class ChatBotFeng extends ChatBotBase implements Emotion
 	public ChatBotFeng() throws IOException {
 		brain.addMemoryType("colleges");
 		brain.addMemoryType("action");
+		brain.addMemoryType("SAT");
 	}
 	
+	/**
+	 * Returns the bot's standard greeting
+	 * @return returns the bot's standard greeting
+	 */
 	public String getGreeting()
 	{
 		return "Hey! The name's Alex, and I'm here to help you get any information about a particular college.\n"
@@ -65,6 +70,42 @@ public class ChatBotFeng extends ChatBotBase implements Emotion
 		if (greetingsDict.contains(statement.toLowerCase())) {
 			response = "Nice to meet you!";
 		}
+		// If the user wants any of the other chatbots
+		else if (findKeyword(statement, "zhou") != -1) {
+			System.out.println("Okay, bye!");
+			response = "~CALLZHOU";
+		}
+		else if (findKeyword(statement, "cheung") != -1) {
+			System.out.println("Okay, bye!");
+			response = "~CALLCHEUNG";
+		}
+		else if (findKeyword(statement, "chan") != -1) {
+			System.out.println("Okay, bye!");
+			response = "~CALLCHAN";
+		}
+		// if the user mentions anything related to majors, refer to chatbot chan
+		else if (findKeyword(statement, "chan") != -1 ||findKeyword(statement, "major") != -1) {
+			System.out.println("Sorry, I don't know much about college majors but my friend Chatbon Chan does! I'll refer him to you. Goodbye!");
+			response = "~CALLCHAN";
+		}
+		// if the user mentions anything related to financial aid, refer to chatbot cheung
+		else if (findKeyword(statement, "cheung") != -1 || findKeyword(statement, "financial aid") != -1) {
+			System.out.println("Sorry, I don't know much about financial aid but my friend Chatbon Cheung does! I'll refer him to you. Goodbye!");
+			response = "~CALLCHEUNG";
+		}
+		else if (findKeyword(statement, "undo") != -1 ||
+				findKeyword(statement, "mistake") != -1 ||
+				findKeyword(statement, "typo") != -1) {
+			String lastAction = brain.getLastMemory("action");
+			// Should go requires SAT score response, so if a mistake was made, delete the last memory
+			if (lastAction.equals("should go") && !brain.getMemory("SAT").isEmpty()) {
+				brain.deleteLastMemory("SAT");
+				response = "Okay, I've completely forgotten about your score. What is your question?";
+			} else {
+				// anger++
+				response = "You are an idiot!";
+			}
+		}
 		else if (findKeyword(statement, "what") != -1 ||
 			findKeyword(statement, "whats") != -1 ||
 			findKeyword(statement, "how") != -1 ||
@@ -76,16 +117,30 @@ public class ChatBotFeng extends ChatBotBase implements Emotion
 			//Where questions
 			response = parseWhereQuestion(statement, colleges);
 		} else if (findKeyword(statement, "can") != -1) {
-			response = "Can I? Of course I can!";
+			// can questions
+			if (findKeyword(statement, "i") != -1) {
+				// if user asks about himself
+				response = "Can you? Of course you can!";
+			} else {
+				response = "Can I? Of course I can!";
+			}
 		} else if (findKeyword(statement, "should") != -1) {
 			response = parseShouldQuestion(statement, colleges);
 		} else {
-			genericResponse(statement);
+			response = genericResponse(statement);
 		}
 		
 		return response;
 	}
 	
+	/**
+	 * Gives a response based on the user's what/how question
+	 * 
+	 * @param statement the user statement
+	 * @param colleges the list of colleges in the user statement
+	 * @return a response based on the rules given for a what/how question
+	 * @throws IOException 
+	 */
 	private String parseWhatHowQuestion(String statement, ArrayList<String> colleges) throws IOException {
 		String response = "";
 		if (colleges.size() <= 0 && brain.getMemory("colleges").size() > 0) {
@@ -120,10 +175,6 @@ public class ChatBotFeng extends ChatBotBase implements Emotion
 				brain.addToMemory("action", "where is");
 				response = getLocationResponse(statement, colleges);
 			}
-			else if (userQueriesCollege(statement, colleges)) {
-				brain.addToMemory("action", "how is");
-				response = getOpinion(statement, colleges);
-			} 
 			else if (findKeyword(statement, "about") != -1 && 
 					brain.getMemory("action").size() > 0 && 
 					SentenceParser.getWords(statement).size() <= 3 + colleges.get(0).length()) {
@@ -132,8 +183,25 @@ public class ChatBotFeng extends ChatBotBase implements Emotion
 				// places previous question at the start
 				statement = brain.getLastMemory("action") + " " + statement;
 				// retry the parsing
-				return parseWhatHowQuestion(statement, colleges);
-			} else {
+				// try to get the question word by getting the first word
+				String firstWord = statement.split(" ")[0];
+				if (firstWord.equals("what") || firstWord.equals("how")) {
+					return parseWhatHowQuestion(statement, colleges);
+				} else if (firstWord.equals("where")) {
+					return parseWhereQuestion(statement, colleges);
+				}
+				else if (firstWord.equals("should")) {
+					return parseShouldQuestion(statement, colleges);
+				} else {
+					//this should never happen
+					return "Huh?";
+				}
+			}
+			else if (userQueriesCollege(statement, colleges)) {
+				brain.addToMemory("action", "how is");
+				response = getOpinion(statement, colleges);
+			} 
+			else {
 				System.out.println("Sorry, I didn't understand.");
 			}
 		} else {
@@ -143,6 +211,14 @@ public class ChatBotFeng extends ChatBotBase implements Emotion
 		return response;
 	}
 	
+	/**
+	 * Gives a response based on the user's where question
+	 * 
+	 * @param statement the user statement
+	 * @param colleges the list of colleges in the user statement
+	 * @return a response based on the rules given for a where question
+	 * @throws IOException 
+	 */
 	private String parseWhereQuestion(String statement, ArrayList<String> colleges) throws IOException {
 		String response = "";
 		if (colleges.size() <= 0 && brain.getMemory("colleges").size() > 0) {
@@ -166,6 +242,14 @@ public class ChatBotFeng extends ChatBotBase implements Emotion
 		return response;
 	}
 	
+	/**
+	 * Gives a response based on the user's should question
+	 * 
+	 * @param statement the user statement
+	 * @param colleges the list of colleges in the user statement
+	 * @return a response based on the rules given for a should question
+	 * @throws IOException 
+	 */
 	private String parseShouldQuestion(String statement, ArrayList<String> colleges) throws IOException {
 		String response = "";
 		if (colleges.size() <= 0 && brain.getMemory("colleges").size() > 0) {
@@ -177,7 +261,7 @@ public class ChatBotFeng extends ChatBotBase implements Emotion
 		}
 		if (colleges.size() > 0) {
 			if (userRequestsShouldGo(statement)) {
-				brain.addToMemory("action", "where is");
+				brain.addToMemory("action", "should go");
 				response = getShouldGoResponse(statement, colleges);
 			} else {
 				System.out.println("Sorry, I didn't understand.");
@@ -189,8 +273,15 @@ public class ChatBotFeng extends ChatBotBase implements Emotion
 		return response;
 	}
 	
+	/**
+	 * Gives a response based on the user's lack of colleges in the statement
+	 * 
+	 * @param statement the user statement
+	 * @return a response based on the rules given for a lack of colleges in the statement
+	 */
 	private String caseOfCollegeNotRecognized(String statement) {
 		String response = "";
+		// if the statement is related to college/university
 		if (findKeyword(statement.toLowerCase(), "college") != -1 ||
 			findKeyword(statement.toLowerCase(), "university") != -1) {
 			response = "Sorry, I do not recognize that college (Proper capitalization please!)";
@@ -200,32 +291,64 @@ public class ChatBotFeng extends ChatBotBase implements Emotion
 		return response;
 	}
 	
+	/* Boolean functions for detecting keywords in the statement for a certain action */
+	
+	/**
+	 * Returns true/false if the user requested a college's admission rate based on keywords
+	 * @param statement the user statement
+	 * @return returns true/false if the user requested a college's admission rate
+	 */
 	private boolean userRequestsAdmissionRate(String statement) {
 		statement = statement.toLowerCase();
 		return findKeyword(statement, "admission") != -1 && findKeyword(statement, "rate") != -1;
 	}
 
+	/**
+	 * Returns true/false if the user requested a college's average SAT score based on keywords
+	 * @param statement the user statement
+	 * @return returns true/false if the user requested a college's average SAT score
+	 */
 	private boolean userRequestsSATScore(String statement) {
 		statement = statement.toLowerCase();
 		return findKeyword(statement, "sat") != -1;
 	}
 	
+	/**
+	 * Returns true/false if the user requested a college's average ACT score based on keywords
+	 * @param statement the user statement
+	 * @return returns true/false if the user requested a college's average ACT score
+	 */
 	private boolean userRequestsACTScore(String statement) {
 		statement = statement.toLowerCase();
 		return findKeyword(statement, "act") != -1;
 	}
 	
+	/**
+	 * Returns true/false if the user requested a college's average GPA based on keywords
+	 * @param statement the user statement
+	 * @return returns true/false if the user requested a college's average GPA
+	 */
 	private boolean userRequestsGPA(String statement) {
 		statement = statement.toLowerCase();
 		return findKeyword(statement, "gpa") != -1;
 	}
 	
+	/**
+	 * Returns true/false if the user requested a college's location based on keywords
+	 * @param statement the user statement
+	 * @return returns true/false if the user requested a college's location
+	 */
 	private boolean userRequestsLocation(String statement) {
 		statement = statement.toLowerCase();
 		return findKeyword(statement, "where") != -1 && 
 				findKeyword(statement, "is") != -1 || findKeyword(statement, "location") != -1;
 	}
 	
+	/**
+	 * Returns true/false if the user requested a college's average cost based on keywords
+	 * @param statement the user statement
+	 * @return returns true/false if the user requested a college's average cost
+	 */
 	private boolean userRequestsCost(String statement) {
 		statement = statement.toLowerCase();
 		return (findKeyword(statement, "much") != -1 &&
@@ -234,11 +357,21 @@ public class ChatBotFeng extends ChatBotBase implements Emotion
 				findKeyword(statement, "cost") != -1;
 	}
 	
+	/**
+	 * Returns true/false if the user requested whether or not they should go to college based on keywords
+	 * @param statement the user statement
+	 * @return returns true/false if the user requested whether or not they should go to college
+	 */
 	private boolean userRequestsShouldGo(String statement) {
 		statement = statement.toLowerCase();
 		return findKeyword(statement, "go") != -1;
 	}
 	
+	/**
+	 * Returns true/false if the user asks about a college based on keywords
+	 * @param statement the user statement
+	 * @return Returns true/false if the user asks about a college
+	 */
 	private boolean userQueriesCollege(String statement, ArrayList<String> colleges) {
 		statement = statement.toLowerCase();
 		return findKeyword(statement, "is") != -1 || findKeyword(statement, "about") != -1  && 
@@ -379,42 +512,57 @@ public class ChatBotFeng extends ChatBotBase implements Emotion
 		Scanner input = new Scanner(System.in);
 		// will work on multiple colleges later
 		for (String college : colleges) {
-			System.out.println("What is your SAT score out of 1600?");
-			String response = input.nextLine();
-			// If the person says he didn't take the SAT yet
-			if (findKeyword(response, "didnt") != -1 || findKeyword(response, "didn't") != -1) {
+			boolean hasSATScore = brain.getMemory("SAT").size() > 0;
+			String response = "";
+			if (!hasSATScore) {
+				System.out.println("What is your SAT score out of 1600?");
+				response = input.nextLine();
+			}
+			// If the person says he didn't take the SAT yet and hasn't reported an SAT score to the bot
+			if (!hasSATScore && (findKeyword(response, "didnt") != -1 
+					|| findKeyword(response, "didn't") != -1
+					|| findKeyword(response, "did not") != -1)) {
 				System.out.println("That's okay, if you want to take a mock SAT exam, you can ask Chatbot Zhou!\n"
 									+ "Would you like to take one?");
 				response = input.nextLine();
 				// Yes or no response to take SAT from person
-				if (findKeyword(response, "yes") != -1 || findKeyword(response, "would like to") != -1) {
-					input.close();
-					return "CALLZHOU";
+				if (findKeyword(response, "yes") != -1 
+						|| findKeyword(response, "would like to") != -1
+						|| findKeyword(response, "sure") != -1) {
+					return "~CALLZHOU";
 				} else if (findKeyword(response, "no") != -1) {
-					input.close();
 					return "Okay.";
 				} else {
-					input.close();
 					return "Huh?";
 				}
 			} else {
 				while (true) {
+					int score = 0;
 					try {
-						int score = Integer.parseInt(response);
-						int collegeSATScore = Integer.parseInt(getAvgSATScore(college));
-						if (Math.abs(collegeSATScore - score) < 100 || score > collegeSATScore) {
-							return "You have a chance to get in!";
+						if (!hasSATScore) {
+							score = Integer.parseInt(response);
+							brain.addToMemory("SAT", Integer.toString(score));
 						} else {
-							return "Don't even try!";
+							score = Integer.parseInt(brain.getLastMemory("SAT"));
 						}
 					} catch (NumberFormatException e) {
 						System.out.println("Please enter a valid number.");
 						response = input.nextLine();
 					}
+					int collegeSATScore = Integer.parseInt(getAvgSATScore(college));
+					if (collegeSATScore > 1600) {
+						// anger++
+						brain.deleteLastMemory("SAT");
+						return "Are you trying to lie to me or is this just a misunderstanding?";
+					} else if (Math.abs(collegeSATScore - score) < 100 || score > collegeSATScore) {
+						return "You have a chance to get in!";
+					} else {
+						return "Don't even try!";
+					}
+					
 				}
 			}
 		}
-		input.close();
 		return "Huh?"; // This should never happen
 	}
 	

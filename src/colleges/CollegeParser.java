@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import com.opencsv.CSVReader;
 
+import chatbots.ChatBotBase;
 import grammar.Dictionary;
 import grammar.SentenceParser;
 
@@ -49,16 +50,46 @@ public class CollegeParser{
 	}
 	
 	public ArrayList<String> getColleges() {
-		int collegeIdx = sentence.indexOf("College");
+		// finds two word or more colleges
 		ArrayList<ArrayList<String>> potentialColleges = findSubsequentTitleCasedWords();
 		ArrayList<String> colleges = new ArrayList<>();
+		
+		// one word colleges
+		ChatBotBase bot = new ChatBotBase();
+		if (bot.findKeyword(sentence, "MIT") != -1) {
+			colleges.add("Massachusetts Institute of Technology");
+		} else if (bot.findKeyword(sentence, "harvard") != -1) {
+			colleges.add("Harvard University");
+		} else if (bot.findKeyword(sentence, "yale") != -1) {
+			colleges.add("Yale University");
+		} else if (bot.findKeyword(sentence, "princeton") != -1) {
+			colleges.add("Princeton University");
+		} else if (bot.findKeyword(sentence, "columbia") != -1) {
+			colleges.add("Columbia University");
+		} else if (bot.findKeyword(sentence, "brown") != -1) {
+			colleges.add("Brown University");
+		} else if (bot.findKeyword(sentence, "NYU") != -1) {
+			colleges.add("New York University");
+		} else if (bot.findKeyword(sentence, "stony") != -1) {
+			colleges.add("Stony Brook");
+		} else if (bot.findKeyword(sentence, "binghamton") != -1) {
+			colleges.add("SUNY at Binghamton");
+		} else if (bot.findKeyword(sentence, "cornell") != -1) {
+			colleges.add("Cornell University");
+		} else if (bot.findKeyword(sentence, "dartmouth") != -1) {
+			colleges.add("Dartmouth University");
+		} else if (bot.findKeyword(sentence, "upenn") != -1) {
+			colleges.add("University of Pennsylvania");
+		} else if (bot.findKeyword(sentence, "uchicago") != -1) {
+			colleges.add("University of Chicago");
+		}
+		
+		
+		// process two or more word colleges
 		for (ArrayList<String> potentialCollege : potentialColleges) {
 			String college = joinArrayList(potentialCollege);
 			String collegeLowerCased = college.toLowerCase();
-			// special case (generalize later	)
-			if (collegeLowerCased.equals("mit")) {
-				colleges.add(college);
-			} else if (collegeList.indexOf(collegeLowerCased) != -1) {
+			if (collegeList.indexOf(collegeLowerCased) != -1) {
 				colleges.add(college);
 			}
 		}

@@ -23,4 +23,9 @@ public class Brain {
 		ArrayList<String> currentMemory = memory.get(location);
 		return memory.get(location).get(currentMemory.size() - 1); 
 	}
+	
+	public void deleteLastMemory(String location) {
+		ArrayList<String> currentMemory = memory.get(location);
+		currentMemory.remove(currentMemory.size()-1);
+	}
 }
