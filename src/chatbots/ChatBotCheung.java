@@ -41,7 +41,7 @@ public class ChatBotCheung extends ChatBotBase implements Emotion
 			"css",
 			"work",
 			"reimbursement",
-			"tutition",
+			"tuition",
 			"scholarships",
 			"room and board",
 			"loans",
@@ -50,29 +50,9 @@ public class ChatBotCheung extends ChatBotBase implements Emotion
 			"src",
 	};
 	
-	public String [] calculationVariables = {"age",
-			"familyCount",
-			"collegeCount",
-			"reimbursement",
-			"coa",
-			"studentIncome",
-			"parentIncome",
-			"studentAsset",
-			"parentAsset", 
-	};
-	
-	public String [] calculationsQuestions = {"What is your age?",
-			"How many people live in your household?",
-			"How many people in your household are in college?",
-			"A college's cost of attendance (COA) is the total direct and indirect costs of a year of college. What is the COA of the college of your interest? + /n + If you don't know the COA of your college, I can ask Chatbot Feng for the information!",
-			"What is your income?",
-			"What is your parent's income?",
-			"What is the value of your assets?",
-			"What is the value of your parent's assets?",
-	};
 	public String [] termsDefined = {"FAFSA (Free Application for Federal Student Aid): You've probably heard of the FAFSA, but do you know what it is and just how important it can be for you and your family? Filling out the FAFSA is one of the first steps in the financial aid process, and determines the amount that you or your family will be contributing to your postsecondary education. The results of the FAFSA determine student grants, work-study, and loan amounts. We recommend that everyone fills out the FAFSA; it only takes about an hour to complete, and you may be surprised with the results.",
 			"The CSS/Financial Aid PROFILE (often written as CSS PROFILE), short for the College Scholarship Service PROFILE, is an application distributed by the College Board in the United States allowing college students to apply for financial aid. ... Each CSS PROFILE costs a fee, varying from year to year.",
-			"Work-study/work award: The Federal Work Study program provides funds to eligible students (see FAFSA above) for part-time employment to help finance the costs of postsecondary education. In most cases, the school or employer has to pay up to 50 percent of the student's wages, with the federal government covering the rest. You could be employed by the college itself; or by a federal, state, or local public agency; a private nonprofit organization; or a private for-profit organization.",
+			"Work-study/work award: The Federal Work Study program provides funds to eligible students (see FAFSA above) for part-time employment to help finance the costs of postsecondary education. In most cases, the school or employer has to pay up to 50 percent of the student's wparentparentAges, with the federal government covering the rest. You could be employed by the college itself; or by a federal, state, or local public parentparentAgency; a private nonprofit organization; or a private for-profit organization.",
 			"Tuition reimbursement: Tuition reimbursement, also sometimes called \\\"tuition assistance,\\\" is increasing in popularity. Some employers will refund you the cost of your tuition if you're studying a work-related area. Tuition reimbursement can cover as little as one or two courses, or can cover up to the entire cost of your education.",
 			"Tuition: College tuition is the \"sticker price\" of your education, and does not include room and board, textbooks, or other fees. Colleges often calculate tuition based on the cost of one credit, or \"unit.\" For example, a college may charge $350 per credit for an undergraduate class. Many times colleges will simplify this by providing a flat fee for tuition; you're often required to take a minimum amount of credits and cannot exceed a maximum amount of credits. \"True cost\" is a little misleading, since there are other costs on top of tuition.",
 			"Scholarships: There really isn't much difference between a scholarship and a grant, though the general consensus is that scholarships are primarily awarded for academic merit (good grades) or for something you have accomplished (volunteer work or a specific project); however, there are many need-based scholarships out there, as well. Like grants, scholarships don't have to be repaid.\n Visit https://www.fastweb.com/ for scholarship opportunities!",
@@ -170,59 +150,82 @@ public class ChatBotCheung extends ChatBotBase implements Emotion
 	public int calculateAid () throws FileNotFoundException, IOException {
 		Scanner in = new Scanner (System.in);
 		// variables used to calculate need-based aid
-		int studentIncome = 0;
-		int efc = 0;
-		int coa = 0;
-		int age = 0;
-		int familyCount = 0;
-		int collegeCount = 0;	
-		int parentIncome = 0;
-		int studentAsset = 0;
-		int parentAsset = 0;
-		for (String r: calculationVariables) {
-		for (String s: calculationsQuestions){
-			int r = inputString(s);
-		}
-		} 
-	age = inputString("What is your age?");
-	System.out.println(age);
-
-	//familyCount = Integer.parseInt(in.nextLine());
-		//collegeCount = Integer.parseInt(in.nextLine());
-		ChatBotFeng feng = new ChatBotFeng();
-		String temp = feng.getResponse(in.nextLine());
-		System.out.println(temp);
-		String[] tempArray = temp.split(" ");
-		String result = tempArray[tempArray.length - 1];
-		result = result.substring(1,result.length() -1);
-		System.out.println(result);
-		coa = Integer.parseInt(result);
-		//
-		
-		studentIncome = Integer.parseInt(in.nextLine());
-		parentIncome = Integer.parseInt(in.nextLine());
-		studentAsset = Integer.parseInt(in.nextLine());
+		int parentAge = answerQuestion("What is your parent's age?");
+		int familyCount = answerQuestion("How many people live in your household?");
+		int collegeCount = answerQuestion("How many people in your household are in college?");
+		int coa = answerQuestion("A college's cost of attendance (COA) is the total direct and indirect costs of a year of college. What is the COA of the college of your interest?\nIf you don't know the COA of your college, I can ask Chatbot Feng for the information!");
+		int studentIncome = answerQuestion("What is your income?");
+		int parentIncome = answerQuestion("What is your parent's income?");
+		int studentAsset = answerQuestion("What is the value of your assets?");
 		studentAsset = (int) ((studentAsset*.5)/2.3);
-		parentAsset = Integer.parseInt(in.nextLine());
-		if (studentIncome < 20000) {
+		int parentAsset = answerQuestion("What is the value of your parent's assets?");
+		int efc = 0;
+		int parentAllowances = 0;
+		int parentContribution = 0;
+		int studentAllowances = 0;
+		int studentContribution = 0;
+		if (parentIncome < 20000) {
 			efc = 0;
+			return coa;
 		}
-		if (studentIncome < 50000) {
-			studentAsset = 0;	
+		if (parentIncome < 50000) {
+			parentAsset = 0;	
 		}
-		efc = (int) (((parentAsset + studentAsset + studentIncome + parentIncome)*.47)/collegeCount);
-		return coa - efc;
+		parentAllowances = (int) ((parentIncome*.06) + (10000 + (familyCount *3460) - (collegeCount*2460)) + (3100));
+		parentIncome = parentIncome - parentAllowances;
+		parentAsset = (int) ((parentAsset * .5) - (1732 * (parentAge - 23)) * .12);
+		if (parentIncome <= 26000) {
+			parentContribution = (int) (parentIncome*.32);
+		}else {
+			parentContribution = (int) (parentIncome*.47);
+		}
+		if (collegeCount > 0) {
+			parentContribution = parentContribution/collegeCount;
+		}
+		studentAllowances = (int) ((studentIncome*.03) + 3000);
+		studentIncome = (studentIncome - studentAllowances)/2;
+		studentAsset = (int) (studentAsset * .5 * .35);
+		studentContribution = studentIncome + studentAsset;
+		efc = parentContribution + studentContribution;
+		if (coa - efc < 0) {
+			return 0;
+		}
+		else 
+		{
+			return coa - efc;
+		}
 	}
 	
-	public int inputString (String question) throws FileNotFoundException, IOException {
+	public int answerQuestion (String question) throws FileNotFoundException, IOException {
 		Scanner in = new Scanner (System.in);
 		while (true) {
 			try {
 			System.out.println(question);
-			return Integer.parseInt(in.nextLine());	
+			//if (Integer.parseInt(in.nextLine()) > 0) {
+			//}
+			 if (question.equals("A college's cost of attendance (COA) is the total direct and indirect costs of a year of college. What is the COA of the college of your interest?\nIf you don't know the COA of your college, I can ask Chatbot Feng for the information!")){
+				ChatBotFeng feng = new ChatBotFeng();
+				String temp = feng.getResponse(in.nextLine());
+				if (temp != "") {
+					System.out.println(temp);
+				}
+				String[] tempArray = temp.split(" ");
+				String result = tempArray[tempArray.length - 1];
+				result = result.substring(1,result.length() -1);
+				return Integer.parseInt(result);
+			}
+				return Integer.parseInt(in.nextLine());	
+			}
+			catch(StringIndexOutOfBoundsException exception) {
+				System.out.println("Please enter a question concerning a college's tuition or the COA");
 			}
 			catch(NumberFormatException ex) {
-				System.out.println("Please enter an integer");
+				if (question.equals("A college's cost of attendance (COA) is the total direct and indirect costs of a year of college. What is the COA of the college of your interest?\nIf you don't know the COA of your college, I can ask Chatbot Feng for the information!")) {
+					System.out.println("Please enter an integer or a question about the tuition of a certain college");
+				}
+				else {
+					System.out.println("Please enter an integer");
+				}
 			}
 		}
 	}
