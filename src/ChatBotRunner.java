@@ -53,7 +53,7 @@ public class ChatBotRunner
 			}
 		}
 		
-		// Greetings
+		// Greetings from bots
 		switch (choice) {
 			case 1:
 			// Chan
@@ -81,6 +81,7 @@ public class ChatBotRunner
 				case 1:
 				// Feng
 					String fengResponse = chatbot1.getResponse(statement);
+					// Swapping between bots
 					if (fengResponse.equals("~CALLZHOU")) {
 						choice = 4;
 						System.out.println("Zhou: " + chatbot4.getGreeting());
@@ -97,6 +98,7 @@ public class ChatBotRunner
 				case 2:
 				// Cheung
 					String cheungResponse = chatbot2.getResponse(statement);
+					// Swapping between bots
 					if (cheungResponse.equals("~CALLZHOU")) {
 						choice = 4;
 						System.out.println("Zhou: " + chatbot4.getGreeting());
@@ -113,6 +115,7 @@ public class ChatBotRunner
 				case 3:
 				// Chan
 					String chanResponse = chatbot3.getResponse(statement);
+					// Swapping between bots
 					if (chanResponse.equals("~CALLZHOU")) {
 						choice = 4;
 						System.out.println("Zhou: " + chatbot4.getGreeting());
@@ -129,6 +132,7 @@ public class ChatBotRunner
 				case 4:
 				// Zhou
 					String zhouResponse = chatbot4.getResponse(statement);
+					// Swapping between bots
 					if (zhouResponse.equals("~CALLCHEUNG")) {
 						choice = 2;
 						System.out.println("Cheung: " + chatbot2.getGreeting());
