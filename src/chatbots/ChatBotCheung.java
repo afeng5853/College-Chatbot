@@ -23,13 +23,6 @@ import java.util.InputMismatchException;
  * @version September 2017
  */
 
-/* ToDo:
- * Improve calculator
- * Add emotion
- * Link to other chatbots to carry over info
- * Comment
- */
-
 public class ChatBotCheung extends ChatBotLevin
 {
 	private Brain brain;
@@ -69,6 +62,11 @@ public class ChatBotCheung extends ChatBotLevin
 		brain.addMemoryType("responses");
 	}
 
+	/**
+	 * Gives a greeting to the user.
+	 * @return 		the chatbot's response
+	 */
+
 	public String getGreeting()
 	{
 		return "Hi, I am a financial college chatbot." + purpose;
@@ -105,11 +103,6 @@ public class ChatBotCheung extends ChatBotLevin
 			System.out.println("Okay, bye!");
 			response = "~CALLCHAN";
 		}
-		//else if (findKeyword(statement, "tuition") >= 0) {
-		//	System.out.println("Chatbot Feng knows that information, let me just ask him!");
-		//	ChatBotFeng feng = new ChatBotFeng();
-		//	response = "Feng: " + feng.getResponse(statement);
-		//}
 		else if (findKeyword(statement, "calculator") >= 0) {
 			response = "You will receive $" + calculateAid() + " in aid!";
 		}
@@ -209,13 +202,17 @@ public class ChatBotCheung extends ChatBotLevin
 		}
 	}
 	
+	/**
+	 * Takes the answer to the calculation question and returns it as an integer.
+	 * @param 	question 	the question to be asked to the user
+	 * @return 				the integer answer to the question
+	 */
+	
 	public int answerQuestion (String question) throws FileNotFoundException, IOException {
 		Scanner in = new Scanner (System.in);
 		while (true) {
 			try {
 			System.out.println(question);
-			//if (Integer.parseInt(in.nextLine()) > 0) {
-			//}
 			 if (question.equals("A college's cost of attendance (COA) is the total direct and indirect costs of a year of college. What is the COA of the college of your interest?\nIf you don't know the COA of your college, I can ask Chatbot Feng for the information!")){
 				ChatBotFeng feng = new ChatBotFeng();
 				String temp = feng.getResponse(in.nextLine());
