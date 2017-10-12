@@ -82,15 +82,14 @@ public class CollegeParser{
 			colleges.add("University of Pennsylvania");
 		} else if (bot.findKeyword(sentence, "uchicago") != -1) {
 			colleges.add("University of Chicago");
-		}
-		
-		
-		// process two or more word colleges
-		for (ArrayList<String> potentialCollege : potentialColleges) {
-			String college = joinArrayList(potentialCollege);
-			String collegeLowerCased = college.toLowerCase();
-			if (collegeList.indexOf(collegeLowerCased) != -1) {
-				colleges.add(college);
+		} else {
+			// process two or more word colleges
+			for (ArrayList<String> potentialCollege : potentialColleges) {
+				String college = joinArrayList(potentialCollege);
+				String collegeLowerCased = college.toLowerCase();
+				if (collegeList.indexOf(collegeLowerCased) != -1) {
+					colleges.add(college);
+				}
 			}
 		}
 		return colleges;
