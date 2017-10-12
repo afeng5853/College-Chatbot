@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 import com.opencsv.CSVReader;
 
-import chatbots.ChatBotBase;
+import chatbots.ChatBotLevin;
 import grammar.Dictionary;
 import grammar.SentenceParser;
 
@@ -55,7 +55,7 @@ public class CollegeParser{
 		ArrayList<String> colleges = new ArrayList<>();
 		
 		// one word colleges
-		ChatBotBase bot = new ChatBotBase();
+		ChatBotLevin bot = new ChatBotLevin();
 		if (bot.findKeyword(sentence, "MIT") != -1) {
 			colleges.add("Massachusetts Institute of Technology");
 		} else if (bot.findKeyword(sentence, "harvard") != -1) {

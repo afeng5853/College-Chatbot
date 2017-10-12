@@ -19,7 +19,7 @@ import bodyParts.Brain;
  * @author Alex Feng
  * @version October 2017
  */
-public class ChatBotFeng extends ChatBotBase implements Emotion
+public class ChatBotFeng extends ChatBotLevin
 {
 	// College csv file column index
 	private static final int SAT = 11;

@@ -9,7 +9,7 @@ import java.util.Random;
  * @author Mr. Levin
  * @version September 2017
  */
-public class ChatBotBase implements Emotion
+public class ChatBotLevin
 {
 	/* Levin's Methods */
 	

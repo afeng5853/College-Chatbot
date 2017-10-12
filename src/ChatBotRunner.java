@@ -3,7 +3,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Scanner;
 
-import chatbots.ChatBotBase;
+import chatbots.ChatBotLevin;
 import chatbots.ChatBotChan;
 import chatbots.ChatBotCheung;
 import chatbots.ChatBotFeng;
@@ -25,17 +25,17 @@ public class ChatBotRunner
 	 */
 	public static void main(String[] args) throws FileNotFoundException, IOException
 	{
-		ChatBotChan chatbot1 = new ChatBotChan();
+		ChatBotFeng chatbot1 = new ChatBotFeng();
 		ChatBotCheung chatbot2 = new ChatBotCheung();
-		ChatBotFeng chatbot3 = new ChatBotFeng();
+		ChatBotChan chatbot3 = new ChatBotChan();
 		ChatBotZhou chatbot4 = new ChatBotZhou();
 		
 		
 		System.out.println("Hello! We are chatbots that will assist you with your college application!\n"
 							+ "Please pick a chatbot to talk to!\n"
-							+ "1. Chatbot Chan - Major Interests\n"
+							+ "1. Chatbot Feng - General information about a college\n"
 							+ "2. Chatbot Cheung - Financial Aid\n"
-							+ "3. Chatbot Feng - General information about a college\n"
+							+ "3. Chatbot Chan - Major Interests\n"
 							+ "4. Chatbot Zhou - Preparation for the SAT");
 		Scanner in = new Scanner (System.in);
 		
@@ -79,19 +79,19 @@ public class ChatBotRunner
 		{
 			switch (choice) {
 				case 1:
-				// Chan
-					String chanResponse = chatbot1.getResponse(statement);
-					if (chanResponse.equals("~CALLZHOU")) {
+				// Feng
+					String fengResponse = chatbot1.getResponse(statement);
+					if (fengResponse.equals("~CALLZHOU")) {
 						choice = 4;
 						System.out.println("Zhou: " + chatbot4.getGreeting());
-					} else if (chanResponse.equals("~CALLFENG")) {
+					} else if (fengResponse.equals("~CALLCHAN")) {
 						choice = 3;
-						System.out.println("Feng: " + chatbot3.getGreeting());
-					} else if (chanResponse.equals("~CALLCHEUNG")) {
+						System.out.println("Chan: " + chatbot3.getGreeting());
+					} else if (fengResponse.equals("~CALLCHEUNG")) {
 						choice = 2;
 						System.out.println("Cheung: " + chatbot2.getGreeting());
 					} else {
-						System.out.println(chanResponse);
+						System.out.println(fengResponse);
 					}
 					break;
 				case 2:
@@ -101,29 +101,29 @@ public class ChatBotRunner
 						choice = 4;
 						System.out.println("Zhou: " + chatbot4.getGreeting());
 					} else if (cheungResponse.equals("~CALLFENG")) {
-						choice = 3;
-						System.out.println("Feng: " + chatbot3.getGreeting());
-					} else if (cheungResponse.equals("~CALLCHAN")) {
 						choice = 1;
-						System.out.println("Chan: " + chatbot1.getGreeting());
+						System.out.println("Feng: " + chatbot1.getGreeting());
+					} else if (cheungResponse.equals("~CALLCHAN")) {
+						choice = 3;
+						System.out.println("Chan: " + chatbot3.getGreeting());
 					} else {
 						System.out.println(cheungResponse);
 					}
 					break;
 				case 3:
-				// Feng
-					String fengResponse = chatbot3.getResponse(statement);
-					if (fengResponse.equals("~CALLZHOU")) {
+				// Chan
+					String chanResponse = chatbot3.getResponse(statement);
+					if (chanResponse.equals("~CALLZHOU")) {
 						choice = 4;
 						System.out.println("Zhou: " + chatbot4.getGreeting());
-					} else if (fengResponse.equals("~CALLCHAN")) {
+					} else if (chanResponse.equals("~CALLFENG")) {
 						choice = 1;
-						System.out.println("Chan: " + chatbot1.getGreeting());
-					} else if (fengResponse.equals("~CALLCHEUNG")) {
+						System.out.println("Feng: " + chatbot1.getGreeting());
+					} else if (chanResponse.equals("~CALLCHEUNG")) {
 						choice = 2;
 						System.out.println("Cheung: " + chatbot2.getGreeting());
 					} else {
-						System.out.println(fengResponse);
+						System.out.println(chanResponse);
 					}
 					break;
 				case 4:
@@ -133,11 +133,11 @@ public class ChatBotRunner
 						choice = 2;
 						System.out.println("Cheung: " + chatbot2.getGreeting());
 					} else if (zhouResponse.equals("~CALLFENG")) {
-						choice = 3;
-						System.out.println("Feng: " + chatbot3.getGreeting());
-					} else if (zhouResponse.equals("~CALLCHAN")) {
 						choice = 1;
-						System.out.println("Chan: " + chatbot1.getGreeting());
+						System.out.println("Feng: " + chatbot1.getGreeting());
+					} else if (zhouResponse.equals("~CALLCHAN")) {
+						choice = 3;
+						System.out.println("Chan: " + chatbot3.getGreeting());
 					} else {
 						System.out.println(zhouResponse);
 					}

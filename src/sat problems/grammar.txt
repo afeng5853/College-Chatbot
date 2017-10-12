@@ -15,13 +15,13 @@ C) supplement, while sweet whey is more desirable
 as a food additive for humans.
 D) supplement, which provides an important
 element of their diet.
-  
+
 3. A
 If it is improperly introduced into the environment, acid-whey runoff can pollute waterways, depleting the oxygen content of streams and rivers as it decomposes.
 A) NO CHANGE
 B) can pollute waterway's,
 C) could have polluted waterways,
-D) has polluted waterway�s,
+D) has polluted waterways,
 
 4. A
 Yogurt manufacturers, food scientists; and government officials are also working together to develop additional solutions for reusing whey.
@@ -37,3 +37,4 @@ B) it, farmers
 C) it, so farmers
 D) it: farmers
 
+END OF LINE - If you remove this it won't read the last question

@@ -12,7 +12,7 @@ import grammar.GreetingsDictionary;
  * @author Alex Chan
  * @version September 2017
  */
-public class ChatBotChan extends ChatBotBase implements Emotion
+public class ChatBotChan extends ChatBotLevin
 {
 	private int emotion = 0;
 	Scanner in = new Scanner (System.in);
@@ -31,7 +31,7 @@ public class ChatBotChan extends ChatBotBase implements Emotion
 		if (statement.length() == 0)
 		{
 			response = "If you do not respond with an interest, I cannot give you a suggestion";
-			emotion++;
+			emotion--;
 		}
 		else if (greetingsDict.contains(statement.toLowerCase())) {
 			response = "Nice to meet you!";
@@ -49,6 +49,7 @@ public class ChatBotChan extends ChatBotBase implements Emotion
 			System.out.println("Okay, bye!");
 			response = "~CALLFENG";
 		}
+		
 		else if (findKeyword(statement, "math", 0) >= 0 || findKeyword(statement, "mathematics", 0) >= 0)
 		{
 			response = "The economics major, or computer science major may be a good choice in regards to your interests.";
@@ -99,7 +100,7 @@ public class ChatBotChan extends ChatBotBase implements Emotion
 			response = "The organic chemistry major is a good choice. The chemical engineering major may be an interesting one too.";
 			emotion++;
 		}		
-		else if (findKeyword(statement, "medicine", 0) >= 0 || findKeyword(statement, "health", 0) >= 0)
+		else if (findKeyword(statement, "medicine", 0) >= 0 || findKeyword(statement, "health", 0) >= 0 || findKeyword(statement, "doctor", 0) >= 0 || findKeyword(statement, "nurse", 0) >= 0)
 		{
 			response = "The nursing major is a good choice.";
 			emotion++;

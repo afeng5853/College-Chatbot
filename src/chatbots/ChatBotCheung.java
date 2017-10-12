@@ -6,8 +6,7 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 import bodyParts.Brain;
-import chatbots.ChatBotBase;
-import chatbots.Emotion;
+import chatbots.ChatBotLevin;
 import grammar.FinanceDictionary;
 import grammar.GreetingsDictionary;
 import grammar.SentenceParser;
@@ -31,7 +30,7 @@ import java.util.InputMismatchException;
  * Comment
  */
 
-public class ChatBotCheung extends ChatBotBase implements Emotion
+public class ChatBotCheung extends ChatBotLevin
 {
 	private Brain brain;
 	String response = "";
