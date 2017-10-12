@@ -93,14 +93,6 @@ public class ChatBotZhou extends ChatBotLevin
 				testNum++;
 			}
 		}
-		else if (findKeyword(statement, "no") != -1) {
-			String[] bots = new String[] {"FENG", "CHEUNG", "CHAN"};
-			Random r = new Random();
-			int botChoice = r.nextInt(bots.length);
-			String botChoiceStr = bots[botChoice];
-			System.out.println("Okay then, go talk to Chatbot "  + botChoiceStr);
-			response = "~CALL" + botChoiceStr;
-		} 
 		else if (findKeyword(statement, "grammar") != -1) {
 			STATE = SAT;
 			satCategory = "grammar";
@@ -135,6 +127,14 @@ public class ChatBotZhou extends ChatBotLevin
 		else if (findKeyword(statement, "chan") != -1) {
 			System.out.println("Okay, bye!");
 			response = "~CALLCHAN";
+		} 
+		else if (findKeyword(statement, "no") != -1) {
+			String[] bots = new String[] {"FENG", "CHEUNG", "CHAN"};
+			Random r = new Random();
+			int botChoice = r.nextInt(bots.length);
+			String botChoiceStr = bots[botChoice];
+			System.out.println("Okay then, go talk to Chatbot "  + botChoiceStr);
+			response = "~CALL" + botChoiceStr;
 		} 
 		else {
 			System.out.println("I don't know what you said");
