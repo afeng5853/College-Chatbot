@@ -30,8 +30,20 @@ public class ChatBotZhou extends ChatBotBase
 		GreetingsDictionary greetingsDict = new GreetingsDictionary();
 		if (greetingsDict.contains(statement.toLowerCase())) {
 			response = "Nice to meet you!";
+		} 
+		// If the user wants any of the other chatbots
+		else if (findKeyword(statement, "feng") != -1) {
+			System.out.println("Okay, bye!");
+			response = "~CALLFENG";
 		}
-		
+		else if (findKeyword(statement, "cheung") != -1) {
+			System.out.println("Okay, bye!");
+			response = "~CALLCHEUNG";
+		}
+		else if (findKeyword(statement, "chan") != -1) {
+			System.out.println("Okay, bye!");
+			response = "~CALLCHAN";
+		}
 		else if (STATE == SAT)
 		{
 			while (STATE == SAT)

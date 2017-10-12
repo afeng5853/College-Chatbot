@@ -88,9 +88,23 @@ public class ChatBotCheung extends ChatBotBase implements Emotion
 		if (greetingsDict.contains(statement.toLowerCase())) {
 			response = "Nice to meet you!";
 		}
+		
 		else if (statement.length() == 0)
 		{
 			response = "Please type something. I can help you with college finance.";
+		}
+		// If the user wants any of the other chatbots
+		else if (findKeyword(statement, "zhou") != -1) {
+			System.out.println("Okay, bye!");
+			response = "~CALLZHOU";
+		}
+		else if (findKeyword(statement, "feng") != -1) {
+			System.out.println("Okay, bye!");
+			response = "~CALLFENG";
+		}
+		else if (findKeyword(statement, "chan") != -1) {
+			System.out.println("Okay, bye!");
+			response = "~CALLCHAN";
 		}
 		//else if (findKeyword(statement, "tuition") >= 0) {
 		//	System.out.println("Chatbot Feng knows that information, let me just ask him!");

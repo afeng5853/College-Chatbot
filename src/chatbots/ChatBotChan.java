@@ -36,6 +36,19 @@ public class ChatBotChan extends ChatBotBase implements Emotion
 		else if (greetingsDict.contains(statement.toLowerCase())) {
 			response = "Nice to meet you!";
 		}
+		// If the user wants any of the other chatbots
+		else if (findKeyword(statement, "zhou") != -1) {
+			System.out.println("Okay, bye!");
+			response = "~CALLZHOU";
+		}
+		else if (findKeyword(statement, "cheung") != -1) {
+			System.out.println("Okay, bye!");
+			response = "~CALLCHEUNG";
+		}
+		else if (findKeyword(statement, "feng") != -1) {
+			System.out.println("Okay, bye!");
+			response = "~CALLFENG";
+		}
 		else if (findKeyword(statement, "math", 0) >= 0 || findKeyword(statement, "mathematics", 0) >= 0)
 		{
 			response = "The economics major, or computer science major may be a good choice in regards to your interests.";
