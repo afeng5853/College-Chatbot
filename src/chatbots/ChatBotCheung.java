@@ -103,7 +103,7 @@ public class ChatBotCheung extends ChatBotLevin
 			System.out.println("Okay, bye!");
 			response = "~CALLCHAN";
 		}
-		else if (findKeyword(statement, "calculator") >= 0) {
+		else if (findKeyword(statement, "calculator") >= 0 || findKeyword(statement, "calculate") >= 0 || findKeyword(statement, "estimate") >= 0) {
 			response = "You will receive $" + calculateAid() + " in aid!";
 		}
 		else if (findKeyword(statement, "terms") >= 0 || findKeyword(statement, "define") >= 0) {
