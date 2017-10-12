@@ -1,0 +1,30 @@
+1. D
+For what value of n is | n - 1 | + 1 equal to 0?
+A) 0
+B) 1
+C) 2
+D) There is no such value of n.
+
+2. B
+A food truck sells salads for $6.50 each and drinks for $2.00 each. The food truck’s revenue from selling a total of 209 salads and drinks in one day was $836.50. How many salads were sold that day?
+A) 77
+B) 93
+C) 99
+D) 105
+
+3. D
+Alma bought a laptop computer at a store that gave a 20 percent discount off its original price. The total amount she paid to the cashier was p dollars, including an 8 percent sales tax on the discounted price. Which of the following represents the original price of the computer in terms of p?
+A) 0.88p
+B) p / 0.88
+C) (0.8)(1.08)p
+D) p / (0.8)(1.08)
+
+4. B
+Katarina is a botanist studying the production of pears by two types of pear trees. She noticed that Type A trees produced 20 percent more pears than Type B trees did. Based on Katarina’s observation, if the Type A trees produced 144 pears, how many pears did the Type B trees produce?
+A) 115
+B) 120
+C) 124
+D) 173
+
+5. 107
+The posted weight limit for a covered wooden bridge in Pennsylvania is 6000 pounds. A delivery truck that is carrying x identical boxes each weighing 14 pounds will pass over the bridge. If the combined weight of the empty delivery truck and its driver is 4500 pounds, what is the maximum possible value for x that will keep the combined weight of the truck, driver, and boxes below the bridge’s posted weight limit?
