@@ -22,6 +22,11 @@ public class CollegeParser{
 	private final String sentence;
 	private String collegeList;
 
+	/**
+	 * @param sentence the sentence to be parsed
+	 * @throws FileNotFoundException
+	 * @throws IOException
+	 */
 	public CollegeParser(String sentence) throws FileNotFoundException, IOException {
 		this.sentence = sentence;
 		
@@ -37,6 +42,10 @@ public class CollegeParser{
 	}
 	
 	//move to utils
+	/**
+	 * @param A the array list to be joined
+	 * @return a string of the array space delimited
+	 */
 	private String joinArrayList(ArrayList<String> A) {
 		StringBuilder build = new StringBuilder();
 		for (int i = 0; i < A.size(); i++) {
@@ -49,6 +58,10 @@ public class CollegeParser{
 		return build.toString();
 	}
 	
+	/**
+	 * gets the colleges and stores it in memory in collegeList
+	 * @see findSubsequentTitleCasedWords
+	 */
 	public ArrayList<String> getColleges() {
 		// finds two word or more colleges
 		ArrayList<ArrayList<String>> potentialColleges = findSubsequentTitleCasedWords();
@@ -95,6 +108,10 @@ public class CollegeParser{
 		return colleges;
 	}
 	
+	/**
+	 * finds subsequent title cased words
+	 * @return an array of subsequent title cased words
+	 */
 	private ArrayList<ArrayList<String>> findSubsequentTitleCasedWords() {
 		int count = 0;
 		ArrayList<String> wordList = SentenceParser.getWords(sentence);
@@ -126,6 +143,13 @@ public class CollegeParser{
 		return potentialColleges;
 	}
 	
+	/**
+	 * 
+	 * @param college the college requested
+	 * @param rowIdx the column index of the csv file
+	 * @return the college data at the cell
+	 * @throws IOException
+	 */
 	public static String getCollegeData(String college, int rowIdx) throws IOException {
 		CSVReader csvReader = new CSVReader(new FileReader("src/colleges/college data.csv"));
 		String returnStr = null;
